@@ -1,0 +1,73 @@
+.card {
+  width: 260px;
+  margin-left: 8px;
+  margin-bottom: 24px;
+  position: relative;
+}
+
+.card:hover {
+  opacity: 0.6;
+}
+
+.image {
+  display: block;
+  border-radius: 4px;
+}
+
+.imageWrapper {
+  margin-bottom: 9px;
+}
+
+.info {
+  -webkit-box-flex: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+
+.mark {
+  position: absolute;
+  top: -5px;
+  left: -3px;
+  padding: 5px 15px 5px 9px;
+  font-size: 12px;
+  line-height: 1.1667;
+  font-weight: 700;
+  color: #fff;
+  background-color: #4481c3;
+  -webkit-transform: skew(-10deg);
+  transform: skew(-10deg);
+  border-radius: 3px;
+}
+.mark span {
+  display: block;
+  -webkit-transform: skew(10deg);
+  transform: skew(10deg);
+}
+
+.price {
+  margin-right: 20px;
+}
+
+.priceValue {
+  font-size: 20px;
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+.priceText {
+  font-size: 12px;
+  line-height: 1.1667;
+}
+
+.priceWrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  align-items: flex-start;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
