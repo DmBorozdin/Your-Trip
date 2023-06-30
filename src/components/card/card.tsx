@@ -1,17 +1,31 @@
 import React from "react";
+import { Bookmark } from "@mui/icons-material";
 import styles from "./card.module.scss";
 
-const Card = () => {
+interface Room {
+  room: {
+    price: number;
+    name: string;
+    type: string;
+    rating: number;
+    isMark: boolean;
+    src: string;
+  };
+}
+
+const Card = ({ room }: Room) => {
   return (
     <article className={styles.card}>
-      <div className={styles.mark}>
-        <span>Premium</span>
-      </div>
+      {room.isMark && (
+        <div className={styles.mark}>
+          <span>Premium</span>
+        </div>
+      )}
       <div className={styles.imageWrapper}>
         <a href="#">
           <img
             className={styles.image}
-            src="img/apartment-01.jpg"
+            src={room.src}
             width="260"
             height="200"
             alt="Place image"
@@ -21,26 +35,22 @@ const Card = () => {
       <div className={styles.info}>
         <div className={styles.priceWrapper}>
           <div className={styles.price}>
-            <b className={styles.priceValue}>&euro;120</b>
+            <b className={styles.priceValue}>&euro;{room.price}</b>
             <span className={styles.priceText}>&#47;&nbsp;night</span>
           </div>
-          <button className="place-card__bookmark-button button" type="button">
-            <svg className="place-card__bookmark-icon" width="18" height="19">
-              <use xlinkHref="#icon-bookmark"></use>
-            </svg>
-            <span className="visually-hidden">To bookmarks</span>
+          <button className={styles.bookmarkButton} type="button">
+            <Bookmark id={styles.bookmarkIcon} />
           </button>
         </div>
-        <div className="place-card__rating rating">
-          <div className="place-card__stars rating__stars">
-            <span style={{ width: `80%` }}></span>
-            <span className="visually-hidden">Rating</span>
+        <div className={styles.rating}>
+          <div className={styles.stars}>
+            <span></span>
           </div>
         </div>
-        <h2 className="place-card__name">
-          <a href="#">Beautiful &amp; luxurious apartment at great location</a>
+        <h2 className={styles.cardName}>
+          <a href="#">{room.name}</a>
         </h2>
-        <p className="place-card__type">Apartment</p>
+        <p className={styles.cardType}>{room.type}</p>
       </div>
     </article>
   );
