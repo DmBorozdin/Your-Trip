@@ -14,7 +14,7 @@ interface Room {
 const CardsList = ({ rooms }: { rooms: Room[] }) => {
   return (
     <div className={styles.list}>
-      {rooms.map((room: Room, index) => (
+      {rooms.map((room, index) => (
         <Card room={room} key={`${room.name}${index}`} />
       ))}
     </div>
