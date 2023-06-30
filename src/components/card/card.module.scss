@@ -1,0 +1,175 @@
+.bookmarkButton {
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  width: 18px;
+  height: 19px;
+  margin-top: 2px;
+  padding: 0;
+  background: 0 0;
+  border: none;
+  text-decoration: none;
+  cursor: pointer;
+  display: inline-block;
+  font: inherit;
+  text-align: center;
+  word-break: break-word;
+  word-wrap: wrap;
+  overflow-wrap: break-word;
+  -webkit-transition: color 0.3s, background-color 0.3s;
+  transition: color 0.3s, background-color 0.3s;
+  outline: 0;
+}
+
+#bookmarkIcon {
+  fill: none;
+  stroke: #979797;
+  stroke-width: 2;
+  -webkit-transition: fill 0.3s, stroke 0.3s;
+  transition: fill 0.3s, stroke 0.3s;
+}
+
+.bookmarkButton:focus #bookmarkIcon,
+.bookmarkButton:hover #bookmarkIcon {
+  stroke: #4481c3;
+}
+.bookmarkButtonActive #bookmarkIcon {
+  stroke: #4481c3;
+  fill: #4481c3;
+}
+
+.card {
+  width: 260px;
+  margin-left: 8px;
+  margin-bottom: 24px;
+  position: relative;
+}
+
+.card:hover {
+  opacity: 0.6;
+}
+
+.cardName {
+  margin-top: 0;
+  margin-bottom: 4px;
+  font-size: 18px;
+  line-height: 1.223;
+  font-weight: 700;
+  font-style: oblique;
+}
+
+.cardName a {
+  display: inline-block;
+}
+
+.cardName a:focus,
+.cardName a:hover {
+  opacity: 0.7;
+}
+
+.cardType {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 12px;
+  line-height: 1.1667;
+}
+
+.image {
+  display: block;
+  border-radius: 4px;
+}
+
+.imageWrapper {
+  margin-bottom: 9px;
+}
+
+.info {
+  -webkit-box-flex: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+
+.mark {
+  position: absolute;
+  top: -5px;
+  left: -3px;
+  padding: 5px 15px 5px 9px;
+  font-size: 12px;
+  line-height: 1.1667;
+  font-weight: 700;
+  color: #fff;
+  background-color: #4481c3;
+  -webkit-transform: skew(-10deg);
+  transform: skew(-10deg);
+  border-radius: 3px;
+}
+.mark span {
+  display: block;
+  -webkit-transform: skew(10deg);
+  transform: skew(10deg);
+}
+
+.price {
+  margin-right: 20px;
+}
+
+.priceValue {
+  font-size: 20px;
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+.priceText {
+  font-size: 12px;
+  line-height: 1.1667;
+}
+
+.priceWrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  align-items: flex-start;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.rating {
+  margin-bottom: 6px;
+}
+
+.stars {
+  width: 73px;
+  height: 12px;
+  position: relative;
+  display: block;
+  font-size: 0;
+}
+
+.stars::before {
+  width: 73px;
+  background-size: 73px 12px;
+  content: "";
+  display: inline-block;
+  height: 100%;
+  background: url(../../img/stars.svg) transparent no-repeat center;
+}
+.stars span {
+  width: 80%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: inline-block;
+  height: 100%;
+  overflow: hidden;
+}
+.stars span::before {
+  width: 73px;
+  background-size: 73px 12px;
+  content: "";
+  display: inline-block;
+  height: 100%;
+  background: url(../../img/stars-active.svg) transparent no-repeat center;
+}

@@ -1,3 +1,14 @@
+.cities {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  background-color: #fff;
+  overflow-y: hidden;
+}
+
 .container {
   width: 1144px;
   margin-left: auto;
@@ -12,14 +23,6 @@
 }
 
 .locationsItemLink {
-  padding: 9px 21px 6px 16px;
-  color: #fff;
-  background-color: #4481c3;
-  text-shadow: 1px 0 0, 0.5px 0 0, -1px 0 0;
-  min-width: 137px;
-  padding: 9px 14px 6px 15px;
-  text-align: center;
-  letter-spacing: 0.9px;
   display: block;
   padding: 9px 21px 6px 11px;
   font-size: 19px;
@@ -31,6 +34,12 @@
   border-radius: 3px;
   -webkit-transition: background 0.3s, color 0.3s, text-shadow 0.3s;
   transition: background 0.3s, color 0.3s, text-shadow 0.3s;
+}
+
+.locationsItemLink span {
+  display: block;
+  -webkit-transform: skew(15deg);
+  transform: skew(15deg);
 }
 
 .locationsItemLinkActive {
@@ -73,16 +82,97 @@
   overflow-y: hidden;
 }
 
-.visuallyHidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  border: 0;
+.options {
+  margin: 0;
   padding: 0;
-  white-space: nowrap;
-  -webkit-clip-path: inset(100%);
-  clip-path: inset(100%);
-  clip: rect(0 0 0 0);
-  overflow: hidden;
+  list-style: none;
+  background-color: #fff;
+  border: 1px solid #dfdfdf;
+  border-radius: 4px;
+  position: absolute;
+  top: calc(100% + 1px);
+  left: 52px;
+  z-index: 1;
+  display: none;
+}
+
+.optionsOpened {
+  display: block;
+}
+
+.option {
+  min-width: 170px;
+  padding: 14px 16px 10px;
+  font-size: 14px;
+  line-height: 1.2143;
+  -webkit-transition: background 0.3s;
+  transition: background 0.3s;
+  outline: 0;
+  cursor: pointer;
+}
+
+.optionActive,
+.option:focus,
+.option:hover {
+  background-color: #f2f2f2;
+}
+
+.option:selected {
+  background-color: #f2f2f2;
+}
+
+.places {
+  width: 572px;
+  margin-top: 2px;
+  margin-right: 2px;
+  padding-top: 29px;
+  padding-bottom: 7px;
+  padding-left: 9px;
+  overflow-y: auto;
+}
+
+.placesContainer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding-right: 0;
+}
+
+.placesFound {
+  display: block;
+  margin-bottom: 22px;
+  padding-left: 2px;
+  font-size: 24px;
+  line-height: 1.167;
+  font-weight: 700;
+  font-style: oblique;
+}
+
+.sorting {
+  position: relative;
+  margin-bottom: 33px;
+  padding-left: 5px;
+}
+
+.sortingArrow {
+  position: absolute;
+  top: 55%;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.sortingCaption {
+  font-size: 12px;
+  line-height: 1.167;
+  font-weight: 700;
+  margin-right: 6px;
+}
+
+.sortingType {
+  position: relative;
+  display: inline-block;
+  padding-right: 12px;
+  font-size: 12px;
+  line-height: 1.167;
+  cursor: pointer;
 }
