@@ -1,5 +1,4 @@
-import { createReducer } from "@reduxjs/toolkit";
-import { loadOffers } from "../action";
+import { createSlice } from "@reduxjs/toolkit";
 
 interface OFFERS {
   offers: Array<{
@@ -57,10 +56,16 @@ const initialState: OFFERS = {
   ],
 };
 
-const offers = createReducer(initialState, (builder) => {
-  builder.addCase(loadOffers, (state, action) => {
-    state.offers = action.payload;
-  });
+const offersSlice = createSlice({
+  name: "offers",
+  initialState,
+  reducers: {
+    loadOffers(state, action) {
+      state.offers = action.payload;
+    },
+  },
 });
 
-export { offers };
+export const { loadOffers } = offersSlice.actions;
+
+export default offersSlice.reducer;

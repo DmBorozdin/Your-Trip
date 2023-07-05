@@ -1,5 +1,4 @@
-import { createReducer } from "@reduxjs/toolkit";
-import { requireAuthorization, addUser } from "../action";
+import { createSlice } from "@reduxjs/toolkit";
 import { AuthorizationStatus } from "../../const";
 
 export interface User {
@@ -16,13 +15,19 @@ const initialState: User = {
   users: [],
 };
 
-const user = createReducer(initialState, (builder) => {
-  builder.addCase(requireAuthorization, (state, action) => {
-    state.auth = action.payload;
-  });
-  builder.addCase(addUser, (state, action) => {
-    state.users.push(action.payload);
-  });
+const userSlice = createSlice({
+  name: "user",
+  initialState,
+  reducers: {
+    requireAuthorization(state, action) {
+      state.auth = action.payload;
+    },
+    addUser(state, action) {
+      state.users.push(action.payload);
+    },
+  },
 });
 
-export { user };
+export const { requireAuthorization, addUser } = userSlice.actions;
+
+export default userSlice.reducer;
