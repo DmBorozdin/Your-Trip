@@ -1,2 +1,2 @@
-import { Store } from "../../types/store/store";
-export const getOffers = (state: Store) => state.OFFERS;
+import type { RootState } from "../store";
+export const getOffers = (state: RootState) => state.offers;

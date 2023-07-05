@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-interface OFFERS {
+interface Offers {
   offers: Array<{
     price: number;
     name: string;
@@ -11,7 +11,7 @@ interface OFFERS {
   }>;
 }
 
-const initialState: OFFERS = {
+const initialState: Offers = {
   offers: [
     {
       price: 120,
