@@ -1,54 +1,13 @@
 import React from "react";
 import CardsList from "../cards-list/cards-list";
-// import { Link } from "react-router-dom";
-// import { APPRoute } from "../../const";
+import { useSelector } from "react-redux";
 import { ExpandMore } from "@mui/icons-material";
+import { getOffers } from "../../store/offers/selector";
 import styles from "./main.module.scss";
 
-const mockData = [
-  {
-    price: 120,
-    name: "Beautiful &amp; luxurious apartment at great location",
-    type: "Apartment",
-    rating: 5,
-    isMark: true,
-    src: "img/apartment-01.jpg",
-  },
-  {
-    price: 80,
-    name: "Wood and stone place",
-    type: "Private room",
-    rating: 4,
-    isMark: false,
-    src: "img/apartment-04.jpg",
-  },
-  {
-    price: 132,
-    name: "Canal View Prinsengracht",
-    type: "Apartment",
-    rating: 4,
-    isMark: false,
-    src: "img/apartment-02.jpg",
-  },
-  {
-    price: 180,
-    name: "Nice, cozy, warm big bed apartment",
-    type: "Apartment",
-    rating: 5,
-    isMark: true,
-    src: "img/apartment-03.jpg",
-  },
-  {
-    price: 80,
-    name: "Wood and stone place",
-    type: "Private room",
-    rating: 5,
-    isMark: false,
-    src: "img/apartment-04.jpg",
-  },
-];
-
 const Main = () => {
+  const { offers } = useSelector(getOffers);
+
   return (
     <main className={styles.main}>
       <div>
@@ -119,7 +78,7 @@ const Main = () => {
                 </li>
               </ul>
             </form>
-            <CardsList rooms={mockData} />
+            <CardsList rooms={offers} />
           </section>
           <div className="cities__right-section">
             <section className="cities__map map"></section>
