@@ -1,17 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { AuthorizationStatus } from "../../const";
 
 interface Users {
   authUser: string;
   users: Array<{
-    id: number;
+    id: string;
     login: string;
     password: string;
   }>;
 }
 
 const initialState: Users = {
-  authUser: AuthorizationStatus.NO_AUTH,
+  authUser: "",
   users: [],
 };
 
@@ -24,10 +23,14 @@ const usersSlice = createSlice({
     },
     addUser(state, action) {
       state.users.push(action.payload);
+      state.authUser = action.payload.id;
+    },
+    logOut(state) {
+      state.authUser = initialState.authUser;
     },
   },
 });
 
-export const { auth, addUser } = usersSlice.actions;
+export const { auth, addUser, logOut } = usersSlice.actions;
 
 export default usersSlice.reducer;

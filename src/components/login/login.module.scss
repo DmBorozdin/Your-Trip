@@ -1,0 +1,86 @@
+.button {
+  width: 100%;
+  padding: 16px 20px 13px;
+  color: #fff;
+  background-color: #4481c3;
+  border-radius: 3px;
+  border: none;
+  text-decoration: none;
+  cursor: pointer;
+  display: inline-block;
+  font: inherit;
+  text-align: center;
+  word-break: break-word;
+  word-wrap: wrap;
+  overflow-wrap: break-word;
+  -webkit-transition: color 0.3s, background-color 0.3s;
+  transition: color 0.3s, background-color 0.3s;
+  outline: 0;
+}
+
+.button:hover {
+  background-color: #3069a6;
+}
+.button:disabled {
+  background-color: #c7c7c7;
+}
+
+.container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.error {
+  color: red;
+  margin-bottom: 12px;
+}
+
+.form {
+  position: relative;
+  z-index: 1;
+  width: 341px;
+}
+
+.input {
+  width: 100%;
+  margin-bottom: 24px;
+  padding: 15px 14px 13px;
+  font-size: 16px;
+  line-height: 1.1875;
+  color: #383838;
+  background-color: #fff;
+  border: 1px solid #e6e6e6;
+  border-radius: 2px;
+}
+
+.input::placeholder {
+  font-size: 16px;
+  line-height: 1.1875;
+  color: #818181;
+}
+
+.login {
+  padding-top: 19.6vh;
+}
+
+.page {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  justify-content: center;
+}
+
+.title {
+  position: relative;
+  z-index: 1;
+  margin-top: 0;
+  margin-bottom: 28px;
+  font-size: 32px;
+  line-height: 1.1875;
+  font-weight: 700;
+  font-style: oblique;
+}
