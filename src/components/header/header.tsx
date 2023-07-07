@@ -54,7 +54,7 @@ const Header = () => {
                     </li>
                   </React.Fragment>
                 )}
-                {!authUser && (
+                {typeof user === `undefined` && (
                   <React.Fragment>
                     <li>
                       <Link className={styles.navLink} to={APPRoute.LOGIN}>

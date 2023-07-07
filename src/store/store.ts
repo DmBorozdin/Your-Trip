@@ -1,20 +1,36 @@
 import { configureStore } from "@reduxjs/toolkit";
 import reducer from "./reducer";
+import {
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from "redux-persist";
+import storage from "redux-persist/lib/storage";
 
-function loadFromLocalStorage() {
-  const localStorageState = localStorage.getItem("users");
-  if (localStorageState === null) return undefined;
-  return { users: JSON.parse(localStorageState) };
-}
+const persistConfig = {
+  key: "root",
+  storage,
+  whitelist: ["users"],
+};
 
-export const store = configureStore({
-  reducer,
-  preloadedState: loadFromLocalStorage(),
+const persistedReducer = persistReducer(persistConfig, reducer);
+
+const store = configureStore({
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
 });
 
+export const persistor = persistStore(store);
+export default store;
+
 export type RootState = ReturnType<typeof store.getState>;
-
-const saveToLocalStorage = (state: RootState["users"]) =>
-  localStorage.setItem("users", JSON.stringify(state));
-
-store.subscribe(() => saveToLocalStorage(store.getState().users));

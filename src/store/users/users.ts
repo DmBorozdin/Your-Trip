@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 interface Users {
-  authUser: string | boolean;
+  authUser: string;
   users: Array<{
     id: string;
     login: string;
@@ -10,7 +10,7 @@ interface Users {
 }
 
 const initialState: Users = {
-  authUser: false,
+  authUser: "",
   users: [],
 };
 
