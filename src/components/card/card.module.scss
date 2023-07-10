@@ -1,9 +1,9 @@
-.bookmarkButton {
+.favoriteButton {
   -ms-flex-negative: 0;
   flex-shrink: 0;
-  width: 18px;
-  height: 19px;
-  margin-top: 2px;
+  width: 24px;
+  height: 24px;
+  margin-right: 5px;
   padding: 0;
   background: 0 0;
   border: none;
@@ -15,26 +15,27 @@
   word-break: break-word;
   word-wrap: wrap;
   overflow-wrap: break-word;
-  -webkit-transition: color 0.3s, background-color 0.3s;
-  transition: color 0.3s, background-color 0.3s;
+  -webkit-transition: color 0.2s, background-color 0.2s;
+  transition: color 0.2s, background-color 0.2s;
   outline: 0;
 }
 
-#bookmarkIcon {
+#favoriteIcon {
   fill: none;
-  stroke: #979797;
+  stroke: #000;
   stroke-width: 2;
-  -webkit-transition: fill 0.3s, stroke 0.3s;
-  transition: fill 0.3s, stroke 0.3s;
+  -webkit-transition: fill 0.2s, stroke 0.2s;
+  transition: fill 0.2s, stroke 0.2s;
 }
 
-.bookmarkButton:focus #bookmarkIcon,
-.bookmarkButton:hover #bookmarkIcon {
-  stroke: #4481c3;
+.favoriteButton:focus #favoriteIcon,
+.favoriteButton:hover #favoriteIcon {
+  stroke: #ff5d5d;
+  fill: #ff5d5d;
 }
-.bookmarkButtonActive #bookmarkIcon {
-  stroke: #4481c3;
-  fill: #4481c3;
+.favoriteButtonActive #favoriteIcon {
+  stroke: #ff5d5d;
+  fill: #ff5d5d;
 }
 
 .card {
@@ -45,7 +46,7 @@
 }
 
 .card:hover {
-  opacity: 0.6;
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.25);
 }
 
 .cardName {
@@ -140,36 +141,19 @@
   margin-bottom: 6px;
 }
 
-.stars {
-  width: 73px;
-  height: 12px;
-  position: relative;
-  display: block;
-  font-size: 0;
+.reviews {
+  font-size: 14px;
+  margin-left: 6px;
 }
 
-.stars::before {
-  width: 73px;
-  background-size: 73px 12px;
-  content: "";
-  display: inline-block;
-  height: 100%;
-  background: url(../../img/stars.svg) transparent no-repeat center;
-}
-.stars span {
-  width: 80%;
+.sponsor {
   position: absolute;
-  top: 0;
-  left: 0;
-  display: inline-block;
-  height: 100%;
-  overflow: hidden;
-}
-.stars span::before {
-  width: 73px;
-  background-size: 73px 12px;
-  content: "";
-  display: inline-block;
-  height: 100%;
-  background: url(../../img/stars-active.svg) transparent no-repeat center;
+  top: 145px;
+  left: 3px;
+  padding: 5px 15px 5px 9px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #333;
+  background-color: #e0e0e0;
+  border-radius: 6px;
 }
