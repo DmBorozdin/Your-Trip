@@ -6,15 +6,19 @@
   -ms-flex-positive: 1;
   flex-grow: 1;
   background-color: #fff;
-  overflow-y: hidden;
+  overflow-y: auto;
 }
 
 .container {
-  width: 1144px;
+  max-width: 1144px;
   margin-left: auto;
   margin-right: auto;
   padding-left: 58px;
   padding-right: 58px;
+}
+
+.datapicker {
+  border-radius: 15px;
 }
 
 .locationsItem {
@@ -122,13 +126,11 @@
 }
 
 .places {
-  width: 572px;
   margin-top: 2px;
   margin-right: 2px;
   padding-top: 29px;
   padding-bottom: 7px;
   padding-left: 9px;
-  overflow-y: auto;
 }
 
 .placesContainer {
@@ -146,6 +148,32 @@
   line-height: 1.167;
   font-weight: 700;
   font-style: oblique;
+}
+
+.searchButton {
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  height: 24px;
+  background-color: #fff;
+}
+
+.searchContainer {
+  padding: 0 116px;
+}
+
+.searchInput {
+  flex-grow: 1;
+}
+
+.searchInput:focus-visible {
+  outline: none;
+}
+
+.searchForm {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
 }
 
 .sorting {
