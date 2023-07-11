@@ -71,6 +71,7 @@ export const adaptHotelsToClient = (hotels: Array<Hotel>) => {
               .replace(/\{width\}/, "300")
               .replace(/\{height\}/, "200")
           ),
+          isFavorite: false,
         });
 
         delete adaptedHotel.priceDetails;

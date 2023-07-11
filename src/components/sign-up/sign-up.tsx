@@ -27,6 +27,7 @@ const SignUp = () => {
           id: nanoid(8),
           login: loginRef.current?.value,
           password: passwordRef.current?.value,
+          favorites: {},
         })
       );
       setErr(false);

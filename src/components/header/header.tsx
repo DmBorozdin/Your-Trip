@@ -22,7 +22,7 @@ const Header = () => {
 
   return (
     <div className={styles.page}>
-      <header>
+      <header className={styles.header}>
         <div className={styles.container}>
           <div className={styles.wrapper}>
             <div className={styles.left}>
