@@ -30,6 +30,7 @@ interface Offers {
     priceForDisplay: string;
     secondaryInfo: null | string;
     title: string;
+    isFavorite: boolean;
   }>;
   totalOffers: string;
   isLoading: boolean;
@@ -60,6 +61,7 @@ interface FetchLocation {
     priceForDisplay: string;
     secondaryInfo: null | string;
     title: string;
+    isFavorite: boolean;
   }>;
   totalOffers: string;
 }

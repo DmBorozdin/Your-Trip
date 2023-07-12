@@ -2,6 +2,8 @@ import React from "react";
 import { Favorite } from "@mui/icons-material";
 import styles from "./card.module.scss";
 import { Rate } from "antd";
+import { useDispatch } from "react-redux";
+import { addToFavorite } from "../../store/users/users";
 
 interface Offer {
   accentedLabel: boolean;
@@ -20,9 +22,29 @@ interface Offer {
   priceForDisplay: string;
   secondaryInfo: null | string;
   title: string;
+  isFavorite: boolean;
 }
 
+const deleteFirstNumber = (str: string) => {
+  if (Number(str[0])) {
+    return str.split(" ").slice(1).join(" ");
+  }
+  return str;
+};
+
 const Card = ({ offer }: { offer: Offer }) => {
+  const dispatch = useDispatch();
+  const handleFavoriteClick = () => {
+    dispatch(
+      addToFavorite({
+        ...offer,
+        title: deleteFirstNumber(offer.title),
+        isSponsored: false,
+        isFavorite: true,
+      })
+    );
+  };
+
   return (
     <article className={styles.card}>
       {offer.badge.type && (
@@ -52,7 +74,13 @@ const Card = ({ offer }: { offer: Offer }) => {
             <b className={styles.priceValue}>{offer.priceForDisplay}</b>
             <span className={styles.priceText}>&#47;&nbsp;night</span>
           </div>
-          <button className={styles.favoriteButton} type="button">
+          <button
+            className={`${styles.favoriteButton} ${
+              offer.isFavorite ? styles.favoriteButtonActive : ""
+            }`}
+            type="button"
+            onClick={handleFavoriteClick}
+          >
             <Favorite id={styles.favoriteIcon} />
           </button>
         </div>

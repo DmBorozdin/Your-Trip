@@ -2,7 +2,7 @@ import React from "react";
 import CardsList from "../cards-list/cards-list";
 import { useSelector } from "react-redux";
 import { ExpandMore } from "@mui/icons-material";
-import { getOffers } from "../../store/offers/selector";
+import { getOffers, getOffersForAuth } from "../../store/offers/selector";
 import styles from "./main.module.scss";
 import { closeError, fetchLocation } from "../../store/offers/offers";
 import { useAppDispatch } from "../../app/hooks";
@@ -13,8 +13,8 @@ import dayjs from "dayjs";
 const DATE_FORMAT = "YYYY-MM-DD";
 
 const Main = () => {
-  const { offers, location, totalOffers, isLoading, isError } =
-    useSelector(getOffers);
+  const { location, totalOffers, isLoading, isError } = useSelector(getOffers);
+  const offers = useSelector(getOffersForAuth);
   const dispatch = useAppDispatch();
 
   const handleSubmit = (value: {
@@ -32,7 +32,7 @@ const Main = () => {
 
   return (
     <main className={styles.main}>
-      <div>
+      <div className={styles.search}>
         <section className={`${styles.container} ${styles.searchContainer}`}>
           <Form
             name="searchForm"

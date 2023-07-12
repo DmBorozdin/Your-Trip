@@ -19,6 +19,7 @@ interface Offer {
   priceForDisplay: string;
   secondaryInfo: null | string;
   title: string;
+  isFavorite: boolean;
 }
 
 const CardsList = ({ offers }: { offers: Array<Offer> }) => {

@@ -6,6 +6,27 @@ interface Users {
     id: string;
     login: string;
     password: string;
+    favorites: {
+      [index: string]: {
+        accentedLabel: boolean;
+        badge: {
+          size: string;
+          type: string;
+          year: string;
+        };
+        bubbleRating: {
+          count: string;
+          rating: number;
+        };
+        cardPhotos: Array<string>;
+        id: string;
+        isSponsored: boolean;
+        priceForDisplay: string;
+        secondaryInfo: null | string;
+        title: string;
+        isFavorite: boolean;
+      };
+    };
   }>;
 }
 
@@ -28,9 +49,21 @@ const usersSlice = createSlice({
     logOut(state) {
       state.authUser = initialState.authUser;
     },
+    addToFavorite(state, action) {
+      const userIndex = state.users.findIndex(
+        (user) => user.id === state.authUser
+      );
+      if (userIndex >= 0) {
+        if (!state.users[userIndex].favorites[action.payload.id]) {
+          state.users[userIndex].favorites[action.payload.id] = action.payload;
+        } else {
+          delete state.users[userIndex].favorites[action.payload.id];
+        }
+      }
+    },
   },
 });
 
-export const { auth, addUser, logOut } = usersSlice.actions;
+export const { auth, addUser, logOut, addToFavorite } = usersSlice.actions;
 
 export default usersSlice.reducer;

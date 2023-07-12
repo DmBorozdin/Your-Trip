@@ -21,6 +21,10 @@
   padding-right: 58px;
 }
 
+.header {
+  background-color: #f5f5f5;
+}
+
 .logoLink {
   font-size: 26px;
   color: #4481c3;
@@ -71,7 +75,6 @@
 }
 
 .page {
-  background-color: #f5f5f5;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -80,6 +83,7 @@
   -ms-flex-direction: column;
   flex-direction: column;
   height: 100vh;
+  background-color: #fff;
 }
 
 .userName {
@@ -93,6 +97,5 @@
   -webkit-box-align: start;
   -ms-flex-align: start;
   align-items: center;
-  padding: 30px 16px 0;
-  margin-bottom: 15px;
+  padding: 24px 16px;
 }
