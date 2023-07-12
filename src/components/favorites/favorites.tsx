@@ -2,10 +2,10 @@ import React from "react";
 import CardsList from "../cards-list/cards-list";
 import styles from "./favorites.module.scss";
 import { useSelector } from "react-redux";
-import { getFavorite } from "../../store/users/selector";
+import { getFavorites } from "../../store/users/selector";
 
 const Favorites = () => {
-  const favorites = useSelector(getFavorite);
+  const favorites = useSelector(getFavorites);
 
   return (
     <main className={styles.main}>
