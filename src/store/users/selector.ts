@@ -3,7 +3,7 @@ import { createSelector } from "@reduxjs/toolkit";
 
 export const getUserData = (state: RootState) => state.users;
 
-export const getFavorite = createSelector(
+export const getFavorites = createSelector(
   [(state: RootState) => state.users],
   (users) => {
     const favorites = users.users.find(
