@@ -1,9 +1,11 @@
 import React from "react";
 import { Favorite } from "@mui/icons-material";
 import styles from "./card.module.scss";
+import { Link } from "react-router-dom";
 import { Rate } from "antd";
 import { useDispatch } from "react-redux";
 import { addToFavorite } from "../../store/users/users";
+import { APPRoute } from "../../const";
 
 interface Offer {
   accentedLabel: boolean;
@@ -58,7 +60,7 @@ const Card = ({ offer }: { offer: Offer }) => {
         </div>
       )}
       <div className={styles.imageWrapper}>
-        <a href="#">
+        <Link to={`${APPRoute.ROOM}/${offer.id}`}>
           <img
             className={styles.image}
             src={offer.cardPhotos[0]}
@@ -66,7 +68,7 @@ const Card = ({ offer }: { offer: Offer }) => {
             height="200"
             alt="Place image"
           />
-        </a>
+        </Link>
       </div>
       <div className={styles.info}>
         <div className={styles.priceWrapper}>
@@ -91,7 +93,7 @@ const Card = ({ offer }: { offer: Offer }) => {
           </span>
         </div>
         <h2 className={styles.cardName}>
-          <a href="#">{offer.title}</a>
+          <Link to={`${APPRoute.ROOM}/${offer.id}`}>{offer.title}</Link>
         </h2>
       </div>
     </article>

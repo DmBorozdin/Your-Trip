@@ -1,0 +1,40 @@
+.inside {
+  width: 100%;
+  margin-bottom: 52px;
+}
+.insideTitle {
+  margin-top: 0;
+  margin-bottom: 16px;
+  font-size: 16px;
+  line-height: 1.1667;
+  font-weight: 700;
+  color: #000;
+}
+.insideList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 20px;
+  align-items: flex-start;
+}
+
+.insideItem {
+  position: relative;
+  width: calc((100% - 60px) / 4);
+  box-sizing: border-box;
+  padding-left: 18px;
+  font-size: 16px;
+  line-height: 1.75;
+  color: #000;
+  &::before {
+    content: "";
+    position: absolute;
+    top: 14px;
+    left: 0;
+    width: 12px;
+    height: 1px;
+    background-color: #000;
+  }
+}

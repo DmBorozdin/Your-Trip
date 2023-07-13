@@ -1,0 +1,253 @@
+.alertContainer {
+  width: 350px;
+  margin-top: 25vh;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.bookmarkButton {
+  width: 24px;
+  height: 24px;
+  margin-right: 5px;
+  padding: 0;
+  background: 0 0;
+  border: none;
+  cursor: pointer;
+  transition: color 0.2s, background-color 0.2s;
+
+  &:hover #favoriteIcon {
+    stroke: #ff5d5d;
+    fill: #ff5d5d;
+  }
+}
+
+.bookmarkButtonActive #favoriteIcon {
+  stroke: #ff5d5d;
+  fill: #ff5d5d;
+}
+
+.container {
+  max-width: 1144px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 29px;
+  padding-right: 29px;
+}
+
+.description {
+  margin-bottom: 52px;
+}
+
+.galleryContainer {
+  padding-left: 52px;
+  padding-right: 52px;
+}
+
+.gallery {
+  max-width: 1100px;
+  margin-right: auto;
+  margin-left: auto;
+  margin-bottom: 30px;
+}
+
+.homeLink {
+  margin-top: 25px;
+  text-align: center;
+}
+
+.image {
+  margin: 0 auto;
+}
+
+.inside {
+  width: 100%;
+  margin-bottom: 52px;
+}
+.insideTitle {
+  margin-top: 0;
+  margin-bottom: 16px;
+  font-size: 16px;
+  line-height: 1.1667;
+  font-weight: 700;
+  color: #000;
+}
+
+#favoriteIcon {
+  fill: none;
+  stroke: #000;
+  stroke-width: 2;
+  -webkit-transition: fill 0.2s, stroke 0.2s;
+  transition: fill 0.2s, stroke 0.2s;
+}
+
+.location {
+  margin-bottom: 16px;
+  display: flex;
+  align-items: flex-end;
+}
+
+.main {
+  padding: 0 0 25px;
+  overflow-x: auto;
+}
+
+.mark {
+  margin-bottom: 8px;
+  padding: 7px 11px 3px 8px;
+  font-size: 16px;
+  line-height: 1.1875;
+  font-weight: 700;
+  font-style: oblique;
+  color: #fff;
+  background-color: #4481c3;
+  -webkit-transform: skew(-10deg);
+  transform: skew(-10deg);
+  border-radius: 2px;
+  background-color: #4481c3;
+  span {
+    display: block;
+    -webkit-transform: skew(10deg);
+    transform: skew(10deg);
+  }
+}
+
+.name {
+  margin: 0;
+  font-size: 38px;
+  line-height: 1.21053;
+  font-weight: 700;
+}
+
+.nameContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+}
+
+.nearPlaces {
+  padding-bottom: 30px;
+}
+
+.nearPlacesList {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  align-items: flex-start;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin-left: -8px;
+  padding-left: 3px;
+}
+
+.nearPlacesTitle {
+  margin-top: 0;
+  margin-bottom: 25px;
+  font-size: 24px;
+  line-height: 1.1667;
+  font-weight: 700;
+  font-style: oblique;
+  text-align: center;
+  color: #000;
+}
+
+.preloaderContainer {
+  width: 350px;
+  height: 100px;
+  margin-top: 35vh;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.price {
+  position: relative;
+}
+
+.priceText {
+  font-size: 18px;
+  line-height: 1.223;
+  font-weight: 700;
+  font-style: oblique;
+  opacity: 0.48;
+}
+
+.priceValue {
+  position: relative;
+  padding-right: 8px;
+  padding-left: 6px;
+  font-size: 32px;
+  line-height: 1.1875;
+  font-weight: 700;
+  font-style: oblique;
+}
+.priceValue::after {
+  content: "";
+  position: absolute;
+  top: -7px;
+  right: -2px;
+  height: 52px;
+  width: 2px;
+  background-color: #4481c3;
+  -webkit-transform: skew(-12deg);
+  transform: skew(-12deg);
+}
+
+.propertyContainer {
+  position: relative;
+  overflow-x: hidden;
+}
+
+.rating {
+  display: flex;
+  align-items: flex-end;
+}
+
+.ratingContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.ratingPriceContainer {
+  display: flex;
+  margin-bottom: 24px;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.ratingValue {
+  margin-right: 10px;
+  padding-top: 2px;
+  font-size: 45px;
+  line-height: 1;
+  font-weight: 700;
+  font-style: oblique;
+}
+
+.ratingReviews {
+  font-size: 14px;
+  margin-left: 6px;
+}
+
+.roomTypes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: 800px;
+  margin-right: auto;
+  margin-left: auto;
+}

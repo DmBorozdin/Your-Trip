@@ -1,5 +1,6 @@
 import axios from "axios";
 import cloneDeep from "lodash.clonedeep";
+import { API_KEY } from "./apiSlice";
 
 interface Location {
   documentId: string;
@@ -45,7 +46,7 @@ export const api = axios.create({
   baseURL: `https://tripadvisor16.p.rapidapi.com/api/v1/hotels`,
   timeout: 20000,
   headers: {
-    "X-RapidAPI-Key": "62ab79e14emshadbbb91302eff1bp14145fjsn5425d25881e0",
+    "X-RapidAPI-Key": API_KEY,
     "X-RapidAPI-Host": "tripadvisor16.p.rapidapi.com",
   },
 });

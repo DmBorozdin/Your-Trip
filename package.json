@@ -19,7 +19,6 @@
     "antd": "^5.6.4",
     "axios": "1.4.0",
     "lodash.clonedeep": "^4.5.0",
-    "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.1.1",
@@ -60,6 +59,7 @@
     "@typescript-eslint/parser": "^5.60.1",
     "eslint": "^8.43.0",
     "eslint-plugin-react": "^7.32.2",
-    "prettier": "2.8.8"
+    "prettier": "2.8.8",
+    "prop-types": "15.8.1"
   }
 }
