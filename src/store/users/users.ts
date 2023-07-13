@@ -61,9 +61,45 @@ const usersSlice = createSlice({
         }
       }
     },
+    addToFavoriteFromDetailsPage(state, action) {
+      const userIndex = state.users.findIndex(
+        (user) => user.id === state.authUser
+      );
+      if (userIndex >= 0) {
+        if (!state.users[userIndex].favorites[action.payload.id]) {
+          state.users[userIndex].favorites[action.payload.id] = {
+            id: action.payload.id,
+            title: action.payload.title,
+            secondaryInfo: null,
+            badge: { size: "", type: "", year: "" },
+            bubbleRating: {
+              count: action.payload.numberReviews,
+              rating: action.payload.rating,
+            },
+            isSponsored: false,
+            accentedLabel: false,
+            priceForDisplay: action.payload.price,
+            cardPhotos: [
+              action.payload.photos[0]
+                .replace(/(?<=w=)1100/g, "300")
+                .replace(/(?<=h=)500/g, "200"),
+            ],
+            isFavorite: true,
+          };
+        } else {
+          delete state.users[userIndex].favorites[action.payload.id];
+        }
+      }
+    },
   },
 });
 
-export const { auth, addUser, logOut, addToFavorite } = usersSlice.actions;
+export const {
+  auth,
+  addUser,
+  logOut,
+  addToFavorite,
+  addToFavoriteFromDetailsPage,
+} = usersSlice.actions;
 
 export default usersSlice.reducer;

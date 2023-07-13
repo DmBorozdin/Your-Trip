@@ -12,3 +12,13 @@ export const getFavorites = createSelector(
     return favorites ? Object.values(favorites) : [];
   }
 );
+
+export const getFavoritesObj = createSelector(
+  [(state: RootState) => state.users],
+  (users) => {
+    const favorites = users.users.find(
+      (user) => user.id === users.authUser
+    )?.favorites;
+    return favorites ? favorites : {};
+  }
+);
