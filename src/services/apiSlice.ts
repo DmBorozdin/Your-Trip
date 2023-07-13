@@ -3,8 +3,31 @@ import dayjs from "dayjs";
 
 const DATE_FORMAT = "YYYY-MM-DD";
 
+interface Offer {
+  photos: string[];
+  title: string;
+  rating: number;
+  numberReviews: number;
+  rankingDetails: string;
+  price: string;
+  reviews: {
+    title: string;
+    text: string;
+    publishedDate: string;
+    avatar: string;
+  }[];
+  location: string;
+  status: boolean;
+  amenities: { hotel: string[]; room: string[]; roomTypes: string[] };
+}
+
+const amenitiesTitle = {
+  room: ["Comfort", "Room features", "Kitchen", "Entertainment", "Bath"],
+  roomTypes: ["View", "Room types"],
+};
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const getTransformedOffer = (response: any) => {
+const getTransformedOffer = (response: any): Offer => {
   const newAmenities: { hotel: string[]; room: string[]; roomTypes: string[] } =
     {
       hotel: [],
@@ -13,15 +36,9 @@ const getTransformedOffer = (response: any) => {
     };
   response.data.amenitiesScreen.forEach(
     (element: { title: string; content: string[] }) => {
-      if (
-        element.title === "Comfort" ||
-        element.title === "Room features" ||
-        element.title === "Kitchen" ||
-        element.title === "Entertainment" ||
-        element.title === "Bath"
-      ) {
+      if (amenitiesTitle.room.includes(element.title)) {
         newAmenities.room.push(...element.content);
-      } else if (element.title === "View" || element.title === "Room types") {
+      } else if (amenitiesTitle.roomTypes.includes(element.title)) {
         newAmenities.roomTypes.push(...element.content);
       } else {
         newAmenities.hotel.push(...element.content);
@@ -34,7 +51,7 @@ const getTransformedOffer = (response: any) => {
     status: response.status,
     price: response.data.price.displayPrice
       ? response.data.price.displayPrice
-      : 0,
+      : "0",
     photos: response.data.photos
       .filter(
         (photo: { maxHeight: number; maxWidth: number; urlTemplate: string }) =>
@@ -64,19 +81,26 @@ const getTransformedOffer = (response: any) => {
         text: review.text.replace(/<br \/>/g, ""),
         publishedDate: review.publishedDate,
         avatar: review.userProfile.avatar.urlTemplate
-          .replace(/\{width\}/, "100")
-          .replace(/\{height\}/, "100"),
+          ? review.userProfile.avatar.urlTemplate
+              .replace(/\{width\}/, "100")
+              .replace(/\{height\}/, "100")
+          : "",
       })
     ),
+    location: response.data.location.address,
   };
 
   delete adaptedResponce.restaurantsNearby;
   delete adaptedResponce.qA;
   delete adaptedResponce.attractionsNearby;
   delete adaptedResponce.amenitiesScreen;
+  delete adaptedResponce.about;
+  delete adaptedResponce.geoPoint;
 
   return adaptedResponce;
 };
+
+export const API_KEY = process.env.REACT_APP_API_KEY as string;
 
 export const apiSlice = createApi({
   reducerPath: "offerDetails",
@@ -84,19 +108,21 @@ export const apiSlice = createApi({
     baseUrl: "https://tripadvisor16.p.rapidapi.com/api/v1/hotels",
     timeout: 20000,
     headers: {
-      "X-RapidAPI-Key": "62ab79e14emshadbbb91302eff1bp14145fjsn5425d25881e0",
+      "X-RapidAPI-Key": API_KEY,
       "X-RapidAPI-Host": "tripadvisor16.p.rapidapi.com",
     },
   }),
   endpoints: (builder) => ({
     getOffer: builder.query({
-      query: (offerId: string) =>
-        `/getHotelDetails?id=${offerId}&checkIn=${dayjs().format(
-          DATE_FORMAT
-        )}&checkOut=${dayjs()
-          .add(1, "d")
-          .format(DATE_FORMAT)}&currencyCode=USD`,
-
+      query: (offerId: string) => ({
+        url: "/getHotelDetails",
+        params: {
+          id: offerId,
+          checkIn: dayjs().format(DATE_FORMAT),
+          checkOut: dayjs().add(1, "d").format(DATE_FORMAT),
+          currencyCode: "USD",
+        },
+      }),
       transformResponse: getTransformedOffer,
     }),
   }),

@@ -19,6 +19,6 @@ export const getFavoritesObj = createSelector(
     const favorites = users.users.find(
       (user) => user.id === users.authUser
     )?.favorites;
-    return favorites ? favorites : {};
+    return favorites || {};
   }
 );
