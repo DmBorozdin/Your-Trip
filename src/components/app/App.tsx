@@ -4,7 +4,7 @@ import ProtectedRoute from "../protected-route/protected-route";
 import { APPRoute } from "../../const";
 import { useSelector } from "react-redux";
 import { getUserData } from "../../store/users/selector";
-import { Skeleton, Spin } from "antd";
+import { Skeleton } from "antd";
 
 const Header = lazy(() => import("../header/header"));
 const Main = lazy(() => import("../main/main"));
