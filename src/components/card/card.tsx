@@ -1,11 +1,13 @@
 import React from "react";
 import { Favorite } from "@mui/icons-material";
 import styles from "./card.module.scss";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Rate } from "antd";
 import { useDispatch } from "react-redux";
 import { addToFavorite } from "../../store/users/users";
 import { APPRoute } from "../../const";
+import { useAppSelector } from "../../app/hooks";
+import { getAuthUser } from "../../store/users/selector";
 
 interface Offer {
   accentedLabel: boolean;
@@ -36,15 +38,22 @@ const deleteFirstNumber = (str: string) => {
 
 const Card = ({ offer }: { offer: Offer }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const authUser = useAppSelector(getAuthUser);
+
   const handleFavoriteClick = () => {
-    dispatch(
-      addToFavorite({
-        ...offer,
-        title: deleteFirstNumber(offer.title),
-        isSponsored: false,
-        isFavorite: true,
-      })
-    );
+    if (authUser) {
+      dispatch(
+        addToFavorite({
+          ...offer,
+          title: deleteFirstNumber(offer.title),
+          isSponsored: false,
+          isFavorite: true,
+        })
+      );
+    } else {
+      navigate(APPRoute.LOGIN);
+    }
   };
 
   return (

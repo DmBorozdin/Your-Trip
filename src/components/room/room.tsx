@@ -11,7 +11,7 @@ import { getOffersForAuth } from "../../store/offers/selector";
 import { useGetOfferQuery } from "../../services/apiSlice";
 import { APPRoute } from "../../const";
 import { CarouselRef } from "antd/es/carousel";
-import { getFavoritesObj } from "../../store/users/selector";
+import { getAuthUser, getFavoritesObj } from "../../store/users/selector";
 import { addToFavoriteFromDetailsPage } from "../../store/users/users";
 import { useAppSelector } from "../../app/hooks";
 import { getAssessmentDescription } from "../../utils/room";
@@ -23,7 +23,7 @@ const Room = () => {
   const carouselRef = useRef<CarouselRef>(null);
   const favorites = useSelector(getFavoritesObj);
   const dispatch = useDispatch();
-  const authUser = useAppSelector((state) => state.users.authUser);
+  const authUser = useAppSelector(getAuthUser);
   const navigate = useNavigate();
 
   const handleFavoriteClick = () => {

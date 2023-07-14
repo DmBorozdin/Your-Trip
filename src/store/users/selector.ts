@@ -22,3 +22,5 @@ export const getFavoritesObj = createSelector(
     return favorites || {};
   }
 );
+
+export const getAuthUser = (state: RootState) => state.users.authUser;
