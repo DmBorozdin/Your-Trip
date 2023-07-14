@@ -1,16 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import styles from "./reviews.module.scss";
-import PropTypes from "prop-types";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
+import { ReviewsContext } from "../room/room";
 
-interface Review {
-  title: string;
-  text: string;
-  publishedDate: string;
-  avatar: string;
-}
-
-const Reviews = ({ reviews }: { reviews: Review[] }) => {
+const Reviews = () => {
+  const reviews = useContext(ReviewsContext);
   return (
     <section className={styles.reviews}>
       <h2 className={styles.reviewsTitle}>Reviews</h2>
@@ -48,17 +42,6 @@ const Reviews = ({ reviews }: { reviews: Review[] }) => {
       </ul>
     </section>
   );
-};
-
-Reviews.propTypes = {
-  reviews: PropTypes.arrayOf(
-    PropTypes.shape({
-      title: PropTypes.string.isRequired,
-      text: PropTypes.string.isRequired,
-      publishedDate: PropTypes.string.isRequired,
-      avatar: PropTypes.string.isRequired,
-    })
-  ).isRequired,
 };
 
 export default Reviews;

@@ -1,24 +1,51 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import dayjs from "dayjs";
+import { formatPhotoUrl } from "../utils/api";
 
 const DATE_FORMAT = "YYYY-MM-DD";
 
-interface Offer {
+export interface Review {
+  title: string;
+  text: string;
+  publishedDate: string;
+  avatar: string;
+}
+
+export interface Amenities {
+  hotel: string[];
+  room: string[];
+  roomTypes: string[];
+}
+
+export interface DetailedOffer {
   photos: string[];
   title: string;
   rating: number;
   numberReviews: number;
   rankingDetails: string;
   price: string;
-  reviews: {
-    title: string;
-    text: string;
-    publishedDate: string;
-    avatar: string;
-  }[];
+  reviews: Review[];
   location: string;
   status: boolean;
-  amenities: { hotel: string[]; room: string[]; roomTypes: string[] };
+  amenities: Amenities;
+}
+
+interface Photo {
+  maxHeight: number;
+  maxWidth: number;
+  urlTemplate: string;
+}
+
+interface ReviewServer {
+  title: string;
+  text: string;
+  bubbleRatingText: string;
+  publishedDate: string;
+  userProfile: {
+    deprecatedContributionCount: string;
+    avatar: Photo;
+    photos: string[];
+  };
 }
 
 const amenitiesTitle = {
@@ -27,13 +54,12 @@ const amenitiesTitle = {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const getTransformedOffer = (response: any): Offer => {
-  const newAmenities: { hotel: string[]; room: string[]; roomTypes: string[] } =
-    {
-      hotel: [],
-      room: [],
-      roomTypes: [],
-    };
+const getTransformedOffer = (response: any): DetailedOffer => {
+  const newAmenities: Amenities = {
+    hotel: [],
+    room: [],
+    roomTypes: [],
+  };
   response.data.amenitiesScreen.forEach(
     (element: { title: string; content: string[] }) => {
       if (amenitiesTitle.room.includes(element.title)) {
@@ -49,44 +75,20 @@ const getTransformedOffer = (response: any): Offer => {
   const adaptedResponce = {
     ...response.data,
     status: response.status,
-    price: response.data.price.displayPrice
-      ? response.data.price.displayPrice
-      : "0",
+    price: response.data.price.displayPrice || "0",
     photos: response.data.photos
-      .filter(
-        (photo: { maxHeight: number; maxWidth: number; urlTemplate: string }) =>
-          Number(photo.maxHeight) > 500
-      )
-      .map(
-        (photo: { maxHeight: number; maxWidth: number; urlTemplate: string }) =>
-          photo.urlTemplate
-            .replace(/\{width\}/, "1100")
-            .replace(/\{height\}/, "500")
-      ),
+      .filter((photo: Photo) => Number(photo.maxHeight) > 500)
+      .map((photo: Photo) => formatPhotoUrl(photo.urlTemplate, "1100", "500")),
     rankingDetails: response.data.rankingDetails.replace(/<a>|<\/a>/g, ""),
     amenities: newAmenities,
-    reviews: response.data.reviews.content.map(
-      (review: {
-        title: string;
-        text: string;
-        bubbleRatingText: string;
-        publishedDate: string;
-        userProfile: {
-          deprecatedContributionCount: string;
-          avatar: { maxHeight: number; maxWidth: number; urlTemplate: string };
-          photos: string[];
-        };
-      }) => ({
-        title: review.title,
-        text: review.text.replace(/<br \/>/g, ""),
-        publishedDate: review.publishedDate,
-        avatar: review.userProfile.avatar.urlTemplate
-          ? review.userProfile.avatar.urlTemplate
-              .replace(/\{width\}/, "100")
-              .replace(/\{height\}/, "100")
-          : "",
-      })
-    ),
+    reviews: response.data.reviews.content.map((review: ReviewServer) => ({
+      title: review.title,
+      text: review.text.replace(/<br \/>/g, ""),
+      publishedDate: review.publishedDate,
+      avatar: review.userProfile.avatar.urlTemplate
+        ? formatPhotoUrl(review.userProfile.avatar.urlTemplate, "100", "100")
+        : "",
+    })),
     location: response.data.location.address,
   };
 

@@ -8,13 +8,15 @@ import CardsList from "../cards-list/cards-list";
 import Reviews from "../reviews/reviews";
 import Amenities from "../amenities/amenities";
 import { getOffersForAuth } from "../../store/offers/selector";
-import { useGetOfferQuery } from "../../services/apiSlice";
+import { useGetOfferQuery, Review } from "../../services/apiSlice";
 import { APPRoute } from "../../const";
 import { CarouselRef } from "antd/es/carousel";
 import { getAuthUser, getFavoritesObj } from "../../store/users/selector";
 import { addToFavoriteFromDetailsPage } from "../../store/users/users";
 import { useAppSelector } from "../../app/hooks";
 import { getAssessmentDescription } from "../../utils/room";
+
+export const ReviewsContext = React.createContext<Review[]>([]);
 
 const Room = () => {
   const pageId = useParams()?.id || "";
@@ -116,7 +118,9 @@ const Room = () => {
                   amenities={offer.amenities.room}
                   amenitiesTitle="Room amenities"
                 />
-                <Reviews reviews={offer.reviews}></Reviews>
+                <ReviewsContext.Provider value={offer.reviews}>
+                  <Reviews />
+                </ReviewsContext.Provider>
               </div>
             </div>
           </section>

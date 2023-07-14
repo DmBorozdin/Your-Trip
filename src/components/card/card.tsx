@@ -8,6 +8,7 @@ import { addToFavorite } from "../../store/users/users";
 import { APPRoute } from "../../const";
 import { useAppSelector } from "../../app/hooks";
 import { getAuthUser } from "../../store/users/selector";
+import PropTypes from "prop-types";
 
 interface Offer {
   accentedLabel: boolean;
@@ -107,6 +108,31 @@ const Card = ({ offer }: { offer: Offer }) => {
       </div>
     </article>
   );
+};
+
+Card.propTypes = {
+  offer: PropTypes.shape({
+    accentedLabel: PropTypes.bool,
+    badge: PropTypes.shape({
+      size: PropTypes.string,
+      type: PropTypes.string,
+      year: PropTypes.string,
+    }).isRequired,
+    bubbleRating: PropTypes.shape({
+      count: PropTypes.string.isRequired,
+      rating: PropTypes.number.isRequired,
+    }).isRequired,
+    cardPhotos: PropTypes.arrayOf(PropTypes.string).isRequired,
+    id: PropTypes.string.isRequired,
+    isSponsored: PropTypes.bool.isRequired,
+    priceForDisplay: PropTypes.string.isRequired,
+    secondaryInfo: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.oneOf([null]),
+    ]),
+    title: PropTypes.string.isRequired,
+    isFavorite: PropTypes.bool.isRequired,
+  }),
 };
 
 export default Card;
