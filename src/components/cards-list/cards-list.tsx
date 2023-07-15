@@ -1,14 +1,8 @@
-import React from "react";
 import Card from "../card/card";
 import styles from "./cards-list.module.scss";
 
 interface Offer {
-  accentedLabel: boolean;
-  badge: {
-    size: string;
-    type: string;
-    year: string;
-  };
+  badge: string;
   bubbleRating: {
     count: string;
     rating: number;
@@ -17,16 +11,28 @@ interface Offer {
   id: string;
   isSponsored: boolean;
   priceForDisplay: string;
-  secondaryInfo: null | string;
   title: string;
   isFavorite: boolean;
 }
 
-const CardsList = ({ offers }: { offers: Array<Offer> }) => {
+const CardsList = ({
+  offers,
+  checkIn,
+  checkOut,
+}: {
+  offers: Array<Offer>;
+  checkIn: string;
+  checkOut: string;
+}) => {
   return (
     <div className={styles.list}>
       {offers.map((offer) => (
-        <Card offer={offer} key={offer.title} />
+        <Card
+          offer={offer}
+          key={offer.title}
+          checkIn={checkIn}
+          checkOut={checkOut}
+        />
       ))}
     </div>
   );

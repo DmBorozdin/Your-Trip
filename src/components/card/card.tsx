@@ -1,4 +1,3 @@
-import React from "react";
 import { Favorite } from "@mui/icons-material";
 import styles from "./card.module.scss";
 import { Link, useNavigate } from "react-router-dom";
@@ -11,12 +10,7 @@ import { getAuthUser } from "../../store/users/selector";
 import PropTypes from "prop-types";
 
 interface Offer {
-  accentedLabel: boolean;
-  badge: {
-    size: string;
-    type: string;
-    year: string;
-  };
+  badge: string;
   bubbleRating: {
     count: string;
     rating: number;
@@ -25,7 +19,6 @@ interface Offer {
   id: string;
   isSponsored: boolean;
   priceForDisplay: string;
-  secondaryInfo: null | string;
   title: string;
   isFavorite: boolean;
 }
@@ -37,7 +30,15 @@ const deleteFirstNumber = (str: string) => {
   return str;
 };
 
-const Card = ({ offer }: { offer: Offer }) => {
+const Card = ({
+  offer,
+  checkIn,
+  checkOut,
+}: {
+  offer: Offer;
+  checkIn: string;
+  checkOut: string;
+}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const authUser = useAppSelector(getAuthUser);
@@ -59,9 +60,9 @@ const Card = ({ offer }: { offer: Offer }) => {
 
   return (
     <article className={styles.card}>
-      {offer.badge.type && (
+      {offer.badge && (
         <div className={styles.mark}>
-          <span>{offer.badge.type}</span>
+          <span>{offer.badge}</span>
         </div>
       )}
       {offer.isSponsored && (
@@ -70,7 +71,9 @@ const Card = ({ offer }: { offer: Offer }) => {
         </div>
       )}
       <div className={styles.imageWrapper}>
-        <Link to={`${APPRoute.ROOM}/${offer.id}`}>
+        <Link
+          to={`${APPRoute.ROOM}/${offer.id}?checkIn=${checkIn}&checkOut=${checkOut}`}
+        >
           <img
             className={styles.image}
             src={offer.cardPhotos[0]}
@@ -103,7 +106,11 @@ const Card = ({ offer }: { offer: Offer }) => {
           </span>
         </div>
         <h2 className={styles.cardName}>
-          <Link to={`${APPRoute.ROOM}/${offer.id}`}>{offer.title}</Link>
+          <Link
+            to={`${APPRoute.ROOM}/${offer.id}?checkIn=${checkIn}&checkOut=${checkOut}`}
+          >
+            {offer.title}
+          </Link>
         </h2>
       </div>
     </article>
@@ -112,12 +119,7 @@ const Card = ({ offer }: { offer: Offer }) => {
 
 Card.propTypes = {
   offer: PropTypes.shape({
-    accentedLabel: PropTypes.bool,
-    badge: PropTypes.shape({
-      size: PropTypes.string,
-      type: PropTypes.string,
-      year: PropTypes.string,
-    }).isRequired,
+    badge: PropTypes.string.isRequired,
     bubbleRating: PropTypes.shape({
       count: PropTypes.string.isRequired,
       rating: PropTypes.number.isRequired,
@@ -126,10 +128,6 @@ Card.propTypes = {
     id: PropTypes.string.isRequired,
     isSponsored: PropTypes.bool.isRequired,
     priceForDisplay: PropTypes.string.isRequired,
-    secondaryInfo: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.oneOf([null]),
-    ]),
     title: PropTypes.string.isRequired,
     isFavorite: PropTypes.bool.isRequired,
   }),

@@ -1,32 +1,22 @@
-import React from "react";
-import CardsList from "../cards-list/cards-list";
-import { useSelector } from "react-redux";
-import { ExpandMore } from "@mui/icons-material";
-import { getOffers, getOffersForAuth } from "../../store/offers/selector";
+import { useNavigate } from "react-router-dom";
 import styles from "./main.module.scss";
-import { closeError, fetchLocation } from "../../store/offers/offers";
-import { useAppDispatch } from "../../app/hooks";
 import { SearchOutlined } from "@ant-design/icons";
-import { DatePicker, Form, Input, Space, Button, Alert } from "antd";
+import { DatePicker, Form, Input, Space, Button } from "antd";
 import dayjs from "dayjs";
 
 const DATE_FORMAT = "YYYY-MM-DD";
 
 const Main = () => {
-  const { location, totalOffers, isLoading, isError } = useSelector(getOffers);
-  const offers = useSelector(getOffersForAuth);
-  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const handleSubmit = (value: {
     location: string;
     rangePicker: Array<dayjs.Dayjs>;
   }) => {
-    dispatch(
-      fetchLocation({
-        location: value.location,
-        checkIn: value.rangePicker[0].format(DATE_FORMAT),
-        checkOut: value.rangePicker[1].format(DATE_FORMAT),
-      })
+    navigate(
+      `search?location=${value.location}&checkIn=${value.rangePicker[0].format(
+        DATE_FORMAT
+      )}&checkOut=${value.rangePicker[1].format(DATE_FORMAT)}`
     );
   };
 
@@ -51,7 +41,6 @@ const Main = () => {
                   type="primary"
                   icon={<SearchOutlined />}
                   htmlType="submit"
-                  loading={isLoading}
                 />
               </Space.Compact>
             </Form.Item>
@@ -64,58 +53,13 @@ const Main = () => {
                   message: "Please select date!",
                 },
               ]}
-              initialValue={[dayjs(), dayjs().add(1, "d")]}
+              initialValue={[dayjs().add(1, "d"), dayjs().add(2, "d")]}
             >
               <DatePicker.RangePicker format={DATE_FORMAT} />
             </Form.Item>
           </Form>
-          {isError && (
-            <Alert
-              type="error"
-              message="Loading error"
-              showIcon
-              closable
-              onClose={() => dispatch(closeError())}
-            />
-          )}
         </section>
       </div>
-      {location.title && (
-        <div className={styles.cities}>
-          <div className={`${styles.placesContainer} ${styles.container}`}>
-            <section className={styles.places}>
-              <b className={styles.placesFound}>
-                {totalOffers} places to stay in {location.title}
-              </b>
-              <form className={styles.sorting} action="#" method="get">
-                <span className={styles.sortingCaption}>Sort by</span>
-                <span className={styles.sortingType} tabIndex={0}>
-                  Popular
-                  <ExpandMore className={styles.sortingArrow} />
-                </span>
-                <ul className={styles.options}>
-                  <li
-                    className={`${styles.option} ${styles.optionActive}`}
-                    tabIndex={0}
-                  >
-                    Popular
-                  </li>
-                  <li className={`${styles.option}`} tabIndex={0}>
-                    Price: low to high
-                  </li>
-                  <li className={`${styles.option}`} tabIndex={0}>
-                    Price: high to low
-                  </li>
-                  <li className={`${styles.option}`} tabIndex={0}>
-                    Top rated first
-                  </li>
-                </ul>
-              </form>
-              <CardsList offers={offers} />
-            </section>
-          </div>
-        </div>
-      )}
     </main>
   );
 };

@@ -8,6 +8,7 @@ import { Skeleton } from "antd";
 
 const Header = lazy(() => import("../header/header"));
 const Main = lazy(() => import("../main/main"));
+const Search = lazy(() => import("../search/search"));
 const Login = lazy(() => import("../login/login"));
 const SignUp = lazy(() => import("../sign-up/sign-up"));
 const Favorites = lazy(() => import("../favorites/favorites"));
@@ -24,6 +25,7 @@ const App = () => {
       <Routes>
         <Route element={<Header />}>
           <Route path={APPRoute.MAIN} element={<Main />} />
+          <Route path={APPRoute.SEARCH} element={<Search />} />
           <Route path={APPRoute.LOGIN} element={<Login />} />
           <Route path={APPRoute.SIGNUP} element={<SignUp />} />
           <Route element={<ProtectedRoute authUser={authUser} />}>

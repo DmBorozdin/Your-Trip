@@ -11,7 +11,6 @@ import {
   REGISTER,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import { api } from "../services/api";
 import { apiSlice } from "../services/apiSlice";
 
 const persistConfig = {
@@ -27,7 +26,6 @@ const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      thunk: { extraArgument: api },
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },

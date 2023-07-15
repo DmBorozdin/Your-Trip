@@ -1,32 +1,30 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+interface Offer {
+  badge: string;
+  bubbleRating: {
+    count: string;
+    rating: number;
+  };
+  cardPhotos: Array<string>;
+  id: string;
+  isSponsored: boolean;
+  priceForDisplay: string;
+  title: string;
+  isFavorite: boolean;
+}
+
+export interface Favorites {
+  [index: string]: Offer;
+}
+
 interface Users {
   authUser: string;
   users: Array<{
     id: string;
     login: string;
     password: string;
-    favorites: {
-      [index: string]: {
-        accentedLabel: boolean;
-        badge: {
-          size: string;
-          type: string;
-          year: string;
-        };
-        bubbleRating: {
-          count: string;
-          rating: number;
-        };
-        cardPhotos: Array<string>;
-        id: string;
-        isSponsored: boolean;
-        priceForDisplay: string;
-        secondaryInfo: null | string;
-        title: string;
-        isFavorite: boolean;
-      };
-    };
+    favorites: Favorites;
   }>;
 }
 
@@ -70,14 +68,12 @@ const usersSlice = createSlice({
           state.users[userIndex].favorites[action.payload.id] = {
             id: action.payload.id,
             title: action.payload.title,
-            secondaryInfo: null,
-            badge: { size: "", type: "", year: "" },
+            badge: "",
             bubbleRating: {
-              count: action.payload.numberReviews,
+              count: String(action.payload.numberReviews),
               rating: action.payload.rating,
             },
             isSponsored: false,
-            accentedLabel: false,
             priceForDisplay: action.payload.price,
             cardPhotos: [
               action.payload.photos[0]

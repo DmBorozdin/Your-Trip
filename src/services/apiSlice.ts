@@ -1,8 +1,13 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import dayjs from "dayjs";
-import { formatPhotoUrl } from "../utils/api";
-
-const DATE_FORMAT = "YYYY-MM-DD";
+import {
+  FetchBaseQueryError,
+  createApi,
+  fetchBaseQuery,
+} from "@reduxjs/toolkit/query/react";
+import {
+  formatPhotoUrl,
+  getTransformedLocation,
+  getTransformedOffers,
+} from "../utils/api";
 
 export interface Review {
   title: string;
@@ -45,6 +50,90 @@ interface ReviewServer {
     deprecatedContributionCount: string;
     avatar: Photo;
     photos: string[];
+  };
+}
+
+export interface LocationServer {
+  documentId: string;
+  geoId: string;
+  secondaryText: string;
+  title: string;
+  trackingItems: string;
+}
+
+export interface Location {
+  geoId: string;
+  title: string;
+  status: boolean;
+}
+
+export interface LocationResponse {
+  data: LocationServer[];
+  message: string;
+  status: boolean;
+  timestamp: number;
+}
+
+export interface OfferResponce {
+  accentedLabel: boolean;
+  badge: {
+    size?: string;
+    type?: string;
+    year?: string;
+  };
+  bubbleRating: {
+    count: string;
+    rating: number;
+  };
+  cardPhotos: Array<{
+    sizes: Photo & { __typename: string };
+    __typename: string;
+  }>;
+  id: string;
+  isSponsored: boolean;
+  priceDetails: string;
+  priceForDisplay: string;
+  priceSummary: null | string;
+  primaryInfo: null | string;
+  provider: string;
+  secondaryInfo: null | string;
+  strikethroughPrice: null | string;
+  title: string;
+}
+
+export interface OffersResponce {
+  data: { data: OfferResponce[]; sortDisclaimer: string };
+  message: string;
+  status: boolean;
+  timestamp: number;
+}
+
+export interface Offer {
+  badge: string;
+  bubbleRating: {
+    count: string;
+    rating: number;
+  };
+  cardPhotos: Array<string>;
+  id: string;
+  isSponsored: boolean;
+  priceForDisplay: string;
+  title: string;
+  isFavorite: boolean;
+}
+
+interface Search {
+  location: string;
+  checkIn: string;
+  checkOut: string;
+}
+
+export interface OffersbyLocation {
+  location: Location;
+  offers: {
+    status: boolean;
+    offers: Offer[];
+    totalOffers: string;
   };
 }
 
@@ -105,7 +194,7 @@ const getTransformedOffer = (response: any): DetailedOffer => {
 export const API_KEY = process.env.REACT_APP_API_KEY as string;
 
 export const apiSlice = createApi({
-  reducerPath: "offerDetails",
+  reducerPath: "offers",
   baseQuery: fetchBaseQuery({
     baseUrl: "https://tripadvisor16.p.rapidapi.com/api/v1/hotels",
     timeout: 20000,
@@ -116,18 +205,53 @@ export const apiSlice = createApi({
   }),
   endpoints: (builder) => ({
     getOffer: builder.query({
-      query: (offerId: string) => ({
+      query: (offerParams: {
+        offerId: string;
+        checkIn: string;
+        checkOut: string;
+      }) => ({
         url: "/getHotelDetails",
         params: {
-          id: offerId,
-          checkIn: dayjs().format(DATE_FORMAT),
-          checkOut: dayjs().add(1, "d").format(DATE_FORMAT),
+          id: offerParams.offerId,
+          checkIn: offerParams.checkIn,
+          checkOut: offerParams.checkOut,
           currencyCode: "USD",
         },
       }),
       transformResponse: getTransformedOffer,
     }),
+    getAllOffers: builder.query<OffersbyLocation, Search>({
+      async queryFn(searchParams, _queryApi, _extraOptions, fetchWithBQ) {
+        const locationResponse = await fetchWithBQ({
+          url: "/searchLocation",
+          params: {
+            query: searchParams.location,
+          },
+        });
+        if (locationResponse.error) {
+          return { error: locationResponse.error as FetchBaseQueryError };
+        }
+        const location = getTransformedLocation(
+          locationResponse.data as LocationResponse
+        );
+        const offersResponce = await fetchWithBQ({
+          url: "/searchHotels",
+          params: {
+            geoId: location.geoId,
+            checkIn: searchParams.checkIn,
+            checkOut: searchParams.checkOut,
+            currencyCode: "USD",
+          },
+        });
+        if (offersResponce.error) {
+          return { error: offersResponce.error as FetchBaseQueryError };
+        }
+        const offersResponceData = offersResponce.data as OffersResponce;
+        const offers = getTransformedOffers(offersResponceData);
+        return { data: { location, offers } };
+      },
+    }),
   }),
 });
 
-export const { useGetOfferQuery } = apiSlice;
+export const { useGetOfferQuery, useGetAllOffersQuery } = apiSlice;
