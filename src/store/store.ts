@@ -12,6 +12,7 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { apiSlice } from "../services/apiSlice";
+import userMiddleware from "./middlewares/user";
 
 const persistConfig = {
   key: "root",
@@ -29,7 +30,7 @@ const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }).concat(apiSlice.middleware),
+    }).concat(apiSlice.middleware, userMiddleware),
 });
 
 export const persistor = persistStore(store);

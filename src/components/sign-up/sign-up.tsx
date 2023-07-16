@@ -4,7 +4,6 @@ import { addUser } from "../../store/users/users";
 import styles from "./sign-up.module.scss";
 import { useNavigate } from "react-router-dom";
 import { APPRoute } from "../../const";
-import { nanoid } from "@reduxjs/toolkit";
 import { getUserData } from "../../store/users/selector";
 
 const SignUp = () => {
@@ -24,11 +23,8 @@ const SignUp = () => {
     if (indexLogin < 0) {
       dispatch(
         addUser({
-          id: nanoid(8),
           login: loginRef.current?.value,
           password: passwordRef.current?.value,
-          favorites: {},
-          history: [],
         })
       );
       setErr(false);
