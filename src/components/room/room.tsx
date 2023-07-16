@@ -16,7 +16,7 @@ import { APPRoute } from "../../const";
 import { CarouselRef } from "antd/es/carousel";
 import { getAuthUserId, getFavoritesObj } from "../../store/users/selector";
 import { addToFavoriteFromDetailsPage } from "../../store/users/users";
-import { useAppSelector } from "../../app/hooks";
+import { useAppSelector } from "../../hooks/redux";
 import { getAssessmentDescription } from "../../utils/room";
 
 export const ReviewsContext = React.createContext<Review[]>([]);

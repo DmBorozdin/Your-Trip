@@ -42,7 +42,7 @@ const SignUp = () => {
     <main className={styles.page}>
       <div className={styles.container}>
         <section className={styles.login}>
-          <h1 className={styles.title}>Регистрация</h1>
+          <h1 className={styles.title}>Sign up</h1>
           <form
             className={styles.form}
             action="#"
@@ -67,17 +67,18 @@ const SignUp = () => {
                 className={styles.input}
                 type="password"
                 name="password"
-                placeholder="Пароль"
+                placeholder="Password"
                 required
+                minLength={4}
               />
             </div>
             {err && (
               <div className={styles.error}>
-                Пользователь с данным логином уже существует
+                User with this login already exists
               </div>
             )}
             <button className={styles.button} type="submit">
-              Создать
+              Create an account
             </button>
           </form>
         </section>

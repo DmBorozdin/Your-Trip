@@ -35,7 +35,7 @@ const Login = () => {
     <main className={styles.page}>
       <div className={styles.container}>
         <section className={styles.login}>
-          <h1 className={styles.title}>Вход</h1>
+          <h1 className={styles.title}>Login</h1>
           <form className={styles.form} action="#" method="post">
             <div>
               <input
@@ -53,19 +53,17 @@ const Login = () => {
                 className={styles.input}
                 type="password"
                 name="password"
-                placeholder="Пароль"
+                placeholder="Password"
                 required
               />
             </div>
-            {err && (
-              <div className={styles.error}>Не правильный логин/пароль</div>
-            )}
+            {err && <div className={styles.error}>Wrong login/password</div>}
             <button
               className={styles.button}
               type="submit"
               onClick={handleSubmit}
             >
-              Войти
+              Sign in
             </button>
           </form>
         </section>

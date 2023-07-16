@@ -5,7 +5,7 @@ import { Rate } from "antd";
 import { useDispatch } from "react-redux";
 import { addHistory, addToFavorite } from "../../store/users/users";
 import { APPRoute } from "../../const";
-import { useAppSelector } from "../../app/hooks";
+import { useAppSelector } from "../../hooks/redux";
 import { getAuthUserId } from "../../store/users/selector";
 import PropTypes from "prop-types";
 
