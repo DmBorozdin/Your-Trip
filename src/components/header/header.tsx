@@ -5,12 +5,11 @@ import styles from "./header.module.scss";
 import { APPRoute } from "../../const";
 import { AccountCircle } from "@mui/icons-material";
 import { useSelector } from "react-redux";
-import { getUserData } from "../../store/users/selector";
+import { getAuthUser } from "../../store/users/selector";
 import { logOut } from "../../store/users/users";
 
 const Header = () => {
-  const { authUser, users } = useSelector(getUserData);
-  const user = users.find((user) => user.id === authUser);
+  const authUser = useSelector(getAuthUser);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -32,7 +31,7 @@ const Header = () => {
             </div>
             <nav className={styles.nav}>
               <ul className={styles.navList}>
-                {typeof user !== `undefined` && (
+                {authUser && (
                   <React.Fragment>
                     <li>
                       <Link className={styles.navLink} to={APPRoute.FAVORITES}>
@@ -40,7 +39,14 @@ const Header = () => {
                           color="action"
                           className={styles.avatar}
                         />
-                        <span className={styles.userName}>{user.login}</span>
+                        <span className={styles.userName}>
+                          {authUser.login}
+                        </span>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link className={styles.navLink} to={APPRoute.HISTORY}>
+                        <span className={styles.userName}>History</span>
                       </Link>
                     </li>
                     <li>
@@ -49,21 +55,21 @@ const Header = () => {
                         to="#"
                         onClick={handleLogOut}
                       >
-                        <span className={styles.userName}>Выйти</span>
+                        <span className={styles.userName}>Log out</span>
                       </Link>
                     </li>
                   </React.Fragment>
                 )}
-                {typeof user === `undefined` && (
+                {!authUser && (
                   <React.Fragment>
                     <li>
                       <Link className={styles.navLink} to={APPRoute.LOGIN}>
-                        <span className={styles.userName}>Войти</span>
+                        <span className={styles.userName}>Sign in</span>
                       </Link>
                     </li>
                     <li>
                       <Link className={styles.navLink} to={APPRoute.SIGNUP}>
-                        <span className={styles.userName}>Регистрация</span>
+                        <span className={styles.userName}>Sign up</span>
                       </Link>
                     </li>
                   </React.Fragment>

@@ -14,7 +14,7 @@ import Amenities from "../amenities/amenities";
 import { useGetOfferQuery, Review } from "../../services/apiSlice";
 import { APPRoute } from "../../const";
 import { CarouselRef } from "antd/es/carousel";
-import { getAuthUser, getFavoritesObj } from "../../store/users/selector";
+import { getAuthUserId, getFavoritesObj } from "../../store/users/selector";
 import { addToFavoriteFromDetailsPage } from "../../store/users/users";
 import { useAppSelector } from "../../app/hooks";
 import { getAssessmentDescription } from "../../utils/room";
@@ -36,7 +36,7 @@ const Room = () => {
   const carouselRef = useRef<CarouselRef>(null);
   const favorites = useSelector(getFavoritesObj);
   const dispatch = useDispatch();
-  const authUser = useAppSelector(getAuthUser);
+  const authUser = useAppSelector(getAuthUserId);
   const navigate = useNavigate();
 
   const handleFavoriteClick = () => {

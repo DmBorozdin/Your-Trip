@@ -7,8 +7,9 @@ import { DatePicker, Form, Input, Space, Button, Alert, Spin } from "antd";
 import dayjs from "dayjs";
 import { useGetAllOffersQuery } from "../../services/apiSlice";
 import { APPRoute } from "../../const";
-import { useSelector } from "react-redux";
-import { getFavoritesObj } from "../../store/users/selector";
+import { useDispatch, useSelector } from "react-redux";
+import { getAuthUserId, getFavoritesObj } from "../../store/users/selector";
+import { addHistory } from "../../store/users/users";
 
 const DATE_FORMAT = "YYYY-MM-DD";
 
@@ -23,16 +24,24 @@ const Search = () => {
   const { data, isLoading, isSuccess, isError } = useGetAllOffersQuery(params);
   const favorites = useSelector(getFavoritesObj);
   const offersForAuth = getOffersForAuth(favorites, data);
+  const authUser = useSelector(getAuthUserId);
+  const dispatch = useDispatch();
 
   const handleSubmit = (value: {
     location: string;
     rangePicker: Array<dayjs.Dayjs>;
   }) => {
-    navigate(
-      `/search?location=${value.location}&checkIn=${value.rangePicker[0].format(
-        DATE_FORMAT
-      )}&checkOut=${value.rangePicker[1].format(DATE_FORMAT)}`
-    );
+    const url = `${APPRoute.SEARCH}?location=${
+      value.location
+    }&checkIn=${value.rangePicker[0].format(
+      DATE_FORMAT
+    )}&checkOut=${value.rangePicker[1].format(DATE_FORMAT)}`;
+    const locationFormated =
+      value.location[0].toUpperCase() + value.location.slice(1);
+    if (authUser) {
+      dispatch(addHistory({ title: locationFormated, url }));
+    }
+    navigate(url);
   };
 
   return (

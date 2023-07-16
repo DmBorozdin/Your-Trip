@@ -3,10 +3,10 @@ import styles from "./card.module.scss";
 import { Link, useNavigate } from "react-router-dom";
 import { Rate } from "antd";
 import { useDispatch } from "react-redux";
-import { addToFavorite } from "../../store/users/users";
+import { addHistory, addToFavorite } from "../../store/users/users";
 import { APPRoute } from "../../const";
 import { useAppSelector } from "../../app/hooks";
-import { getAuthUser } from "../../store/users/selector";
+import { getAuthUserId } from "../../store/users/selector";
 import PropTypes from "prop-types";
 
 interface Offer {
@@ -23,7 +23,7 @@ interface Offer {
   isFavorite: boolean;
 }
 
-const deleteFirstNumber = (str: string) => {
+const deleteFirstNumber = (str: string): string => {
   if (Number(str[0])) {
     return str.split(" ").slice(1).join(" ");
   }
@@ -41,7 +41,8 @@ const Card = ({
 }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const authUser = useAppSelector(getAuthUser);
+  const authUser = useAppSelector(getAuthUserId);
+  const url = `${APPRoute.ROOM}/${offer.id}?checkIn=${checkIn}&checkOut=${checkOut}`;
 
   const handleFavoriteClick = () => {
     if (authUser) {
@@ -58,6 +59,12 @@ const Card = ({
     }
   };
 
+  const handleCardClick = () => {
+    if (authUser) {
+      dispatch(addHistory({ title: deleteFirstNumber(offer.title), url }));
+    }
+  };
+
   return (
     <article className={styles.card}>
       {offer.badge && (
@@ -71,15 +78,14 @@ const Card = ({
         </div>
       )}
       <div className={styles.imageWrapper}>
-        <Link
-          to={`${APPRoute.ROOM}/${offer.id}?checkIn=${checkIn}&checkOut=${checkOut}`}
-        >
+        <Link to={url}>
           <img
             className={styles.image}
             src={offer.cardPhotos[0]}
             width="260"
             height="200"
             alt="Place image"
+            onClick={handleCardClick}
           />
         </Link>
       </div>
@@ -105,12 +111,8 @@ const Card = ({
             {offer.bubbleRating.count} reviews
           </span>
         </div>
-        <h2 className={styles.cardName}>
-          <Link
-            to={`${APPRoute.ROOM}/${offer.id}?checkIn=${checkIn}&checkOut=${checkOut}`}
-          >
-            {offer.title}
-          </Link>
+        <h2 className={styles.cardName} onClick={handleCardClick}>
+          <Link to={url}>{offer.title}</Link>
         </h2>
       </div>
     </article>

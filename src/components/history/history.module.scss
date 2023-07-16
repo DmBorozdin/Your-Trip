@@ -1,0 +1,91 @@
+.container {
+  max-width: 1144px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 29px;
+  padding-right: 29px;
+}
+
+.history {
+  text-align: center;
+}
+
+.historyItem {
+  text-align: start;
+  border-radius: 12px;
+  border: 1px solid #5d5d5d;
+  padding: 12px;
+  background-color: #fff;
+  transition: ease all 0.2s;
+  &:hover {
+    transform: scale(102%);
+  }
+}
+
+.historyList {
+  margin: 0 0 24px;
+  padding: 24px;
+  list-style: none;
+  border: 1px solid #5d5d5d;
+  background-color: #f2f1ec;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.main {
+  padding-top: 30px;
+  overflow-y: auto;
+}
+
+.resetButton {
+  width: 170px;
+  padding: 15px;
+  color: #fff;
+  background-color: #4481c3;
+  border-radius: 3px;
+  border: none;
+  cursor: pointer;
+  transition: color 0.3s, background-color 0.3s;
+  &:hover {
+    background-color: #3069a6;
+  }
+}
+
+.status {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 32px;
+  line-height: 1.1875;
+}
+
+.statusDescription {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 0 30px;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.statusWrapper {
+  width: 420px;
+  margin-top: 17vh;
+  margin-right: auto;
+  margin-left: auto;
+  padding-top: 94px;
+  text-align: center;
+  background-size: 60px 73px;
+  background-position: center top;
+  background-repeat: no-repeat;
+}
+
+.title {
+  margin-top: 0;
+  margin-bottom: 40px;
+  font-size: 32px;
+  line-height: 1.1429;
+  font-weight: 700;
+  font-style: oblique;
+  text-align: center;
+}

@@ -18,6 +18,11 @@ export interface Favorites {
   [index: string]: Offer;
 }
 
+export interface History {
+  title: string;
+  url: string;
+}
+
 interface Users {
   authUser: string;
   users: Array<{
@@ -25,6 +30,7 @@ interface Users {
     login: string;
     password: string;
     favorites: Favorites;
+    history: History[];
   }>;
 }
 
@@ -87,6 +93,22 @@ const usersSlice = createSlice({
         }
       }
     },
+    addHistory(state, action) {
+      const userIndex = state.users.findIndex(
+        (user) => user.id === state.authUser
+      );
+      if (userIndex >= 0) {
+        state.users[userIndex].history.push(action.payload);
+      }
+    },
+    deleteHistory(state) {
+      const userIndex = state.users.findIndex(
+        (user) => user.id === state.authUser
+      );
+      if (userIndex >= 0) {
+        state.users[userIndex].history = [];
+      }
+    },
   },
 });
 
@@ -96,6 +118,8 @@ export const {
   logOut,
   addToFavorite,
   addToFavoriteFromDetailsPage,
+  addHistory,
+  deleteHistory,
 } = usersSlice.actions;
 
 export default usersSlice.reducer;
