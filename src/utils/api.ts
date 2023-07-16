@@ -1,10 +1,21 @@
+import { APPRoute, DATE_FORMAT } from "../const";
 import { LocationResponse, OffersResponce, Offer } from "../services/apiSlice";
+import dayjs from "dayjs";
 
 export const formatPhotoUrl = (
   url: string,
   newWidth: string,
   newHeight: string
 ) => url.replace(/\{width\}/, newWidth).replace(/\{height\}/, newHeight);
+
+export const makeLocationUrl = (
+  location: string,
+  checkIn: dayjs.Dayjs,
+  checkOut: dayjs.Dayjs
+): string =>
+  `${APPRoute.SEARCH}?location=${location}&checkIn=${checkIn.format(
+    DATE_FORMAT
+  )}&checkOut=${checkOut.format(DATE_FORMAT)}`;
 
 export const getTransformedLocation = (location: LocationResponse) => ({
   title: location.data[0].title.replace(/<b>|<\/b>/g, ""),

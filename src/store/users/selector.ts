@@ -17,4 +17,15 @@ export const getFavoritesObj = createSelector(getUserData, (users) => {
   return favorites || {};
 });
 
-export const getAuthUser = (state: RootState) => state.users.authUser;
+export const getAuthUserId = (state: RootState) => state.users.authUser;
+
+export const getAuthUser = createSelector(getUserData, (users) =>
+  users.users.find((user) => user.id === users.authUser)
+);
+
+export const getHistory = createSelector(getUserData, (users) => {
+  const history = users.users.find(
+    (user) => user.id === users.authUser
+  )?.history;
+  return history || [];
+});

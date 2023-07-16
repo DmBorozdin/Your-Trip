@@ -28,6 +28,7 @@ const SignUp = () => {
           login: loginRef.current?.value,
           password: passwordRef.current?.value,
           favorites: {},
+          history: [],
         })
       );
       setErr(false);
