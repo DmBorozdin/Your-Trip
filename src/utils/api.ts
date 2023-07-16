@@ -17,6 +17,13 @@ export const makeLocationUrl = (
     DATE_FORMAT
   )}&checkOut=${checkOut.format(DATE_FORMAT)}`;
 
+export const makeOfferUrl = (
+  offerId: string,
+  checkIn: string,
+  checkOut: string
+): string =>
+  `${APPRoute.ROOM}/${offerId}?checkIn=${checkIn}&checkOut=${checkOut}`;
+
 export const getTransformedLocation = (location: LocationResponse) => ({
   title: location.data[0].title.replace(/<b>|<\/b>/g, ""),
   geoId: location.data[0].geoId.split(";")[1],

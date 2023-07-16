@@ -1,17 +1,13 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { getHistory } from "../../store/users/selector";
 import styles from "./history.module.scss";
 import React from "react";
-import { deleteHistory } from "../../store/users/users";
 import { Link } from "react-router-dom";
+import useHistory from "../../hooks/use-history";
 
 const History = () => {
   const history = useSelector(getHistory);
-  const dispatch = useDispatch();
-
-  const handleResetButtonClick = () => {
-    dispatch(deleteHistory());
-  };
+  const { resetHistory } = useHistory();
 
   return (
     <main className={styles.main}>
@@ -29,10 +25,7 @@ const History = () => {
                   </Link>
                 ))}
               </ul>
-              <button
-                onClick={handleResetButtonClick}
-                className={styles.resetButton}
-              >
+              <button onClick={resetHistory} className={styles.resetButton}>
                 Reset history
               </button>
             </React.Fragment>

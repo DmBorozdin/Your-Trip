@@ -4,10 +4,8 @@ import { SearchOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import { DATE_FORMAT } from "../../const";
 import { makeLocationUrl } from "../../utils/api";
-import { useDispatch, useSelector } from "react-redux";
-import { getAuthUserId } from "../../store/users/selector";
-import { addHistory } from "../../store/users/users";
 import { useNavigate } from "react-router-dom";
+import useHistory from "../../hooks/use-history";
 
 interface InitialValue {
   initialValue: { location: string; checkIn: string; checkOut: string };
@@ -22,9 +20,8 @@ const formatLocationName = (location: string) =>
   location[0].toUpperCase() + location.slice(1);
 
 const SearchForm = ({ initialValue }: InitialValue) => {
-  const authUser = useSelector(getAuthUserId);
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { addHistoryItem } = useHistory();
 
   const handleSubmit = (value: Form) => {
     const url = makeLocationUrl(
@@ -34,9 +31,7 @@ const SearchForm = ({ initialValue }: InitialValue) => {
     );
     const locationFormated = formatLocationName(value.location);
 
-    if (authUser) {
-      dispatch(addHistory({ title: locationFormated, url }));
-    }
+    addHistoryItem(locationFormated, url);
     navigate(url);
   };
 

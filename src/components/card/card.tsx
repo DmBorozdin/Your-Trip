@@ -3,11 +3,13 @@ import styles from "./card.module.scss";
 import { Link, useNavigate } from "react-router-dom";
 import { Rate } from "antd";
 import { useDispatch } from "react-redux";
-import { addHistory, addToFavorite } from "../../store/users/users";
+import { addToFavorite } from "../../store/users/users";
 import { APPRoute } from "../../const";
 import { useAppSelector } from "../../hooks/redux";
 import { getAuthUserId } from "../../store/users/selector";
 import PropTypes from "prop-types";
+import { makeOfferUrl } from "../../utils/api";
+import useHistory from "../../hooks/use-history";
 
 interface Offer {
   badge: string;
@@ -42,7 +44,8 @@ const Card = ({
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const authUser = useAppSelector(getAuthUserId);
-  const url = `${APPRoute.ROOM}/${offer.id}?checkIn=${checkIn}&checkOut=${checkOut}`;
+  const url = makeOfferUrl(offer.id, checkIn, checkOut);
+  const { addHistoryItem } = useHistory();
 
   const handleFavoriteClick = () => {
     if (authUser) {
@@ -59,11 +62,8 @@ const Card = ({
     }
   };
 
-  const handleCardClick = () => {
-    if (authUser) {
-      dispatch(addHistory({ title: deleteFirstNumber(offer.title), url }));
-    }
-  };
+  const handleCardClick = () =>
+    addHistoryItem(deleteFirstNumber(offer.title), url);
 
   return (
     <article className={styles.card}>
