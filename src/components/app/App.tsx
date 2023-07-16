@@ -2,8 +2,6 @@ import { Suspense, lazy } from "react";
 import { Routes, Route } from "react-router-dom";
 import ProtectedRoute from "../protected-route/protected-route";
 import { APPRoute } from "../../const";
-import { useSelector } from "react-redux";
-import { getUserData } from "../../store/users/selector";
 import { Skeleton } from "antd";
 
 const Header = lazy(() => import("../header/header"));
@@ -18,29 +16,25 @@ const NotFoundScreen = lazy(
   () => import("../not-found-screen/not-found-screen")
 );
 
-const App = () => {
-  const { authUser } = useSelector(getUserData);
-
-  return (
-    <Suspense fallback={<Skeleton active />}>
-      <Routes>
-        <Route element={<Header />}>
-          <Route path={APPRoute.MAIN} element={<Main />} />
-          <Route path={APPRoute.SEARCH} element={<Search />} />
-          <Route path={APPRoute.LOGIN} element={<Login />} />
-          <Route path={APPRoute.SIGNUP} element={<SignUp />} />
-          <Route element={<ProtectedRoute authUser={authUser} />}>
-            <Route path={APPRoute.FAVORITES} element={<Favorites />} />
-          </Route>
-          <Route element={<ProtectedRoute authUser={authUser} />}>
-            <Route path={APPRoute.HISTORY} element={<History />} />
-          </Route>
-          <Route path={APPRoute.ROOM + APPRoute.ID} element={<Room />} />
+const App = () => (
+  <Suspense fallback={<Skeleton active />}>
+    <Routes>
+      <Route element={<Header />}>
+        <Route path={APPRoute.MAIN} element={<Main />} />
+        <Route path={APPRoute.SEARCH} element={<Search />} />
+        <Route path={APPRoute.LOGIN} element={<Login />} />
+        <Route path={APPRoute.SIGNUP} element={<SignUp />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path={APPRoute.FAVORITES} element={<Favorites />} />
         </Route>
-        <Route path={APPRoute.NOTFOUND} element={<NotFoundScreen />} />
-      </Routes>
-    </Suspense>
-  );
-};
+        <Route element={<ProtectedRoute />}>
+          <Route path={APPRoute.HISTORY} element={<History />} />
+        </Route>
+        <Route path={APPRoute.ROOM + APPRoute.ID} element={<Room />} />
+      </Route>
+      <Route path={APPRoute.NOTFOUND} element={<NotFoundScreen />} />
+    </Routes>
+  </Suspense>
+);
 
 export default App;
