@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "./amenities.module.scss";
 import PropTypes from "prop-types";
 

@@ -37,7 +37,10 @@ export const getTransformedTotalOffers = (totalOffers: string) => {
 export const getTransformedOffers = (offersResponse: OffersResponce) => {
   const transformedOffers = offersResponse.data.data.map((hotel) => ({
     badge: hotel.badge.type || "",
-    bubbleRating: { ...hotel.bubbleRating },
+    bubbleRating: {
+      count: hotel.bubbleRating.count || "",
+      rating: hotel.bubbleRating.rating || 0,
+    },
     cardPhotos: hotel.cardPhotos.map((photo) =>
       photo.sizes.urlTemplate
         .replace(/\{width\}/, "300")

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import styles from "./reviews.module.scss";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import { ReviewsContext } from "../room/room";

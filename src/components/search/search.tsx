@@ -16,37 +16,40 @@ const Search = () => {
     checkIn: searchParams.get("checkIn") || "",
     checkOut: searchParams.get("checkOut") || "",
   };
-  const { data, isLoading, isSuccess, isError } = useGetAllOffersQuery(params);
+  const { data, isSuccess, isError, isFetching } = useGetAllOffersQuery(params);
   const favorites = useSelector(getFavoritesObj);
   const offersForAuth = getOffersForAuth(favorites, data);
 
   return (
     <main className={styles.main}>
       <SearchForm initialValue={params} />
-      {isLoading && (
+      {isFetching && (
         <div className={styles.preloaderContainer}>
           <Spin tip="Loading" size="large">
             <div className="content" />
           </Spin>
         </div>
       )}
-      {isSuccess && data.location.status && data.offers.status && (
-        <div className={styles.cities}>
-          <div className={`${styles.placesContainer} ${styles.container}`}>
-            <section className={styles.places}>
-              <b className={styles.placesFound}>
-                {data.offers.totalOffers} places to stay in{" "}
-                {data.location.title}
-              </b>
-              <CardsList
-                offers={offersForAuth}
-                checkIn={params.checkIn}
-                checkOut={params.checkOut}
-              />
-            </section>
+      {!isFetching &&
+        isSuccess &&
+        data.location.status &&
+        data.offers.status && (
+          <div className={styles.cities}>
+            <div className={`${styles.placesContainer} ${styles.container}`}>
+              <section className={styles.places}>
+                <b className={styles.placesFound}>
+                  {data.offers.totalOffers} places to stay in{" "}
+                  {data.location.title}
+                </b>
+                <CardsList
+                  offers={offersForAuth}
+                  checkIn={params.checkIn}
+                  checkOut={params.checkOut}
+                />
+              </section>
+            </div>
           </div>
-        </div>
-      )}
+        )}
       {((isSuccess && !data.location.status && !data.offers.status) ||
         isError) && (
         <div className={styles.alertContainer}>
