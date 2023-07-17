@@ -128,6 +128,12 @@ interface Search {
   checkOut: string;
 }
 
+interface SearchOffer {
+  offerId: string;
+  checkIn: string;
+  checkOut: string;
+}
+
 export interface OffersbyLocation {
   location: Location;
   offers: {
@@ -142,8 +148,9 @@ const amenitiesTitle = {
   roomTypes: ["View", "Room types"],
 };
 
+//C сервера получаю кучу не нужного мусора
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const getTransformedOffer = (response: any): DetailedOffer => {
+const getTransformedOffer = (response: any) => {
   const newAmenities: Amenities = {
     hotel: [],
     room: [],
@@ -161,15 +168,15 @@ const getTransformedOffer = (response: any): DetailedOffer => {
     }
   );
 
-  const adaptedResponce = {
-    ...response.data,
-    status: response.status,
-    price: response.data.price.displayPrice || "0",
+  return {
     photos: response.data.photos
       .filter((photo: Photo) => Number(photo.maxHeight) > 500)
       .map((photo: Photo) => formatPhotoUrl(photo.urlTemplate, "1100", "500")),
+    title: response.data.title,
+    rating: response.data.rating,
+    numberReviews: response.data.numberReviews,
     rankingDetails: response.data.rankingDetails.replace(/<a>|<\/a>/g, ""),
-    amenities: newAmenities,
+    price: response.data.price.displayPrice || "0",
     reviews: response.data.reviews.content.map((review: ReviewServer) => ({
       title: review.title,
       text: review.text.replace(/<br \/>/g, ""),
@@ -179,18 +186,12 @@ const getTransformedOffer = (response: any): DetailedOffer => {
         : "",
     })),
     location: response.data.location.address,
+    status: response.status,
+    amenities: newAmenities,
   };
-
-  delete adaptedResponce.restaurantsNearby;
-  delete adaptedResponce.qA;
-  delete adaptedResponce.attractionsNearby;
-  delete adaptedResponce.amenitiesScreen;
-  delete adaptedResponce.about;
-  delete adaptedResponce.geoPoint;
-
-  return adaptedResponce;
 };
 
+//Без as может возвращаться тип undefined
 export const API_KEY = process.env.REACT_APP_API_KEY as string;
 
 export const apiSlice = createApi({
@@ -204,12 +205,8 @@ export const apiSlice = createApi({
     },
   }),
   endpoints: (builder) => ({
-    getOffer: builder.query({
-      query: (offerParams: {
-        offerId: string;
-        checkIn: string;
-        checkOut: string;
-      }) => ({
+    getOffer: builder.query<DetailedOffer, SearchOffer>({
+      query: (offerParams) => ({
         url: "/getHotelDetails",
         params: {
           id: offerParams.offerId,
@@ -220,6 +217,8 @@ export const apiSlice = createApi({
       }),
       transformResponse: getTransformedOffer,
     }),
+    //ниже большое колличество использования as - взято из примера официальной документации как делать несколько запросов на сервер из одной endPoint.
+    // https://redux-toolkit.js.org/rtk-query/usage/customizing-queries#performing-multiple-requests-with-a-single-query
     getAllOffers: builder.query<OffersbyLocation, Search>({
       async queryFn(searchParams, _queryApi, _extraOptions, fetchWithBQ) {
         const locationResponse = await fetchWithBQ({

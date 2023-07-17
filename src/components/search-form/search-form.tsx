@@ -65,7 +65,7 @@ const SearchForm = ({ initialValue }: InitialValue) => {
             name="rangePicker"
             rules={[
               {
-                type: "array" as const,
+                type: "array",
                 required: true,
                 message: "Please select date!",
               },

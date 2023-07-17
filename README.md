@@ -1,46 +1,52 @@
-# Getting Started with Create React App
+# You trip
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) TS template.
+You trip - сервис по поиску отелей. Возможности приложения:
 
-## Available Scripts
+- помогает искать свободные отели на выбранные даты;
+- показывает фотографии отеля;
+- показывает рейтинг;
+- показывает удобства в отеле и номерах;
+- показывает цену на выбранную дату;
+- показывает отзывы пользователей
+- можно авторизоваться и добавлять понравивишиеся отели в изранное.
+- сохраняет историю просмотров отелей для авторизованных пользователей
 
-In the project directory, you can run:
+## В проекте реализованы следующие требования к функциональности:
 
-### `npm start`
+### 1 уровень (необходимый минимум)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### React
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- Функциональные компоненты c хуками в приоритете над классовыми
+- Есть разделение на умные и глупые компоненты:
+  - Умные: [Room](https://github.com/DmBorozdin/Your-Trip/blob/master/src/components/room/room.tsx), [Search](https://github.com/DmBorozdin/Your-Trip/blob/master/src/components/search/search.tsx)
+  - Глупые: [Amenities](https://github.com/DmBorozdin/Your-Trip/blob/master/src/components/amenities/amenities.tsx)
+- Есть рендеринг списков: [CardsList](https://github.com/DmBorozdin/Your-Trip/blob/master/src/components/cards-list/cards-list.tsx), [HistoryList](https://github.com/DmBorozdin/Your-Trip/blob/master/src/components/history/history.tsx), [ReviewsList](https://github.com/DmBorozdin/Your-Trip/blob/master/src/components/reviews/reviews.tsx)
+- Реализована хотя бы одна форма:
+  - Кастомная: [Sign in](https://github.com/DmBorozdin/Your-Trip/blob/master/src/components/login/login.tsx), [Sign up](https://github.com/DmBorozdin/Your-Trip/blob/master/src/components/sign-up/sign-up.tsx)
+  - Ant Design: [SearchForm](https://github.com/DmBorozdin/Your-Trip/blob/master/src/components/search-form/search-form.tsx)
+- Есть применение Контекст API: [Reviews](https://github.com/DmBorozdin/Your-Trip/blob/master/src/components/room/room.tsx)
+- Есть применение предохранителя: [ErrorBoundary](https://github.com/DmBorozdin/Your-Trip/blob/master/src/index.tsx)
+- Есть хотя бы один кастомный хук: [useHistory](https://github.com/DmBorozdin/Your-Trip/blob/master/src/hooks/use-history.ts)
+- Хотя бы несколько компонентов используют PropTypes: [Card](https://github.com/DmBorozdin/Your-Trip/blob/master/src/components/card/card.tsx), [Amenities](https://github.com/DmBorozdin/Your-Trip/blob/master/src/components/amenities/amenities.tsx)
+- Поиск не должен триггерить много запросов к серверу: [SearchForm](https://github.com/DmBorozdin/Your-Trip/blob/master/src/components/search-form/search-form.tsx)
+- Есть применение lazy + Suspense: [lazy + Suspense](https://github.com/DmBorozdin/Your-Trip/blob/master/src/components/app/App.tsx)
 
-### `npm test`
+### Redux
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Используем Modern Redux with Redux Toolkit: [Store](https://github.com/DmBorozdin/Your-Trip/blob/master/src/store/store.ts)
+- Используем слайсы: [usersSlice](https://github.com/DmBorozdin/Your-Trip/blob/master/src/store/users/users.ts)
+- Есть хотя бы одна кастомная мидлвара: [userMiddleware](https://github.com/DmBorozdin/Your-Trip/blob/master/src/store/middlewares/user.ts)
+- Используется RTK Query: [apiSlice](https://github.com/DmBorozdin/Your-Trip/blob/master/src/services/apiSlice.ts)
+- Используется Transforming Responses: [apiSlice](https://github.com/DmBorozdin/Your-Trip/blob/master/src/services/apiSlice.ts)
 
-### `npm run build`
+### 2 уровень (необязательный)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Используeтся TypeScript
+- Используются мемоизированные селекторы (createSelector): [getFavorites, getAuthUser, getHistory](https://github.com/DmBorozdin/Your-Trip/blob/master/src/store/users/selector.ts)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Дополнительно использовано:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+- Библиотека Ant Design для [SearchForm](https://github.com/DmBorozdin/Your-Trip/blob/master/src/components/search-form/search-form.tsx), Skeleton, Preloader, Error Message
+- Библиотека Redux-persist для синхронизации LocalStorage с Redux: [Store](https://github.com/DmBorozdin/Your-Trip/blob/master/src/store/store.ts)
+- SCSS
