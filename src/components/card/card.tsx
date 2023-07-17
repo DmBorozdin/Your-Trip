@@ -10,27 +10,8 @@ import { getAuthUserId } from "../../store/users/selector";
 import PropTypes from "prop-types";
 import { makeOfferUrl } from "../../utils/api";
 import useHistory from "../../hooks/use-history";
-
-interface Offer {
-  badge: string;
-  bubbleRating: {
-    count: string;
-    rating: number;
-  };
-  cardPhotos: Array<string>;
-  id: string;
-  isSponsored: boolean;
-  priceForDisplay: string;
-  title: string;
-  isFavorite: boolean;
-}
-
-const deleteFirstNumber = (str: string): string => {
-  if (Number(str[0])) {
-    return str.split(" ").slice(1).join(" ");
-  }
-  return str;
-};
+import { Offer } from "../../types/offers";
+import { deleteFirstNumber } from "../../utils/card";
 
 const Card = ({
   offer,

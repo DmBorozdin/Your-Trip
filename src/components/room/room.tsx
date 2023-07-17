@@ -11,13 +11,14 @@ import { Rate, Alert, Spin, Carousel } from "antd";
 import { Favorite, LocationOn } from "@mui/icons-material";
 import Reviews from "../reviews/reviews";
 import Amenities from "../amenities/amenities";
-import { useGetOfferQuery, Review } from "../../services/apiSlice";
+import { useGetOfferQuery } from "../../services/apiSlice";
 import { APPRoute } from "../../const";
 import { CarouselRef } from "antd/es/carousel";
 import { getAuthUserId, getFavoritesObj } from "../../store/users/selector";
 import { addToFavoriteFromDetailsPage } from "../../store/users/users";
 import { useAppSelector } from "../../hooks/redux";
 import { getAssessmentDescription } from "../../utils/room";
+import { Review } from "../../types/offers";
 
 export const ReviewsContext = React.createContext<Review[]>([]);
 
@@ -110,27 +111,35 @@ const Room = () => {
                   </div>
                 )}
               </div>
-              <div className={styles.inside}>
-                <h2 className={styles.insideTitle}>Room types</h2>
-                <ul className={styles.roomTypes}>
-                  {offer.amenities.roomTypes.map((сonvenience) => (
-                    <li className={styles.roomType} key={сonvenience}>
-                      {сonvenience}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <Amenities
-                amenities={offer.amenities.hotel.slice(0, 12)}
-                amenitiesTitle="Property amenities"
-              />
-              <Amenities
-                amenities={offer.amenities.room}
-                amenitiesTitle="Room amenities"
-              />
-              <ReviewsContext.Provider value={offer.reviews}>
-                <Reviews />
-              </ReviewsContext.Provider>
+              {offer.amenities.roomTypes.length > 0 && (
+                <div className={styles.inside}>
+                  <h2 className={styles.insideTitle}>Room types</h2>
+                  <ul className={styles.roomTypes}>
+                    {offer.amenities.roomTypes.map((сonvenience) => (
+                      <li className={styles.roomType} key={сonvenience}>
+                        {сonvenience}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              {offer.amenities.hotel.length > 0 && (
+                <Amenities
+                  amenities={offer.amenities.hotel.slice(0, 12)}
+                  amenitiesTitle="Property amenities"
+                />
+              )}
+              {offer.amenities.room.length > 0 && (
+                <Amenities
+                  amenities={offer.amenities.room}
+                  amenitiesTitle="Room amenities"
+                />
+              )}
+              {offer.reviews.length > 0 && (
+                <ReviewsContext.Provider value={offer.reviews}>
+                  <Reviews />
+                </ReviewsContext.Provider>
+              )}
             </div>
           </div>
         </section>

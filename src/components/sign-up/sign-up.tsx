@@ -39,12 +39,7 @@ const SignUp = () => {
       <div className={styles.container}>
         <section className={styles.login}>
           <h1 className={styles.title}>Sign up</h1>
-          <form
-            className={styles.form}
-            action="#"
-            onSubmit={handleSubmit}
-            method="post"
-          >
+          <form className={styles.form} onSubmit={handleSubmit}>
             <div>
               <input
                 ref={loginRef}

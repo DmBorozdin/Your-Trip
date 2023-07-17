@@ -1,8 +1,7 @@
 import styles from "./main.module.scss";
 import SearchForm from "../search-form/search-form";
 import dayjs from "dayjs";
-
-const DATE_FORMAT = "YYYY-MM-DD";
+import { DATE_FORMAT } from "../../const";
 
 const Main = () => (
   <main className={styles.main}>

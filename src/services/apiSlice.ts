@@ -4,192 +4,24 @@ import {
   fetchBaseQuery,
 } from "@reduxjs/toolkit/query/react";
 import {
-  formatPhotoUrl,
   getTransformedLocation,
+  getTransformedOffer,
   getTransformedOffers,
 } from "../utils/api";
+import { DetailedOffer, OffersbyLocation } from "../types/offers";
+import { LocationResponse, OffersServer } from "../types/serverOffers";
 
-export interface Review {
-  title: string;
-  text: string;
-  publishedDate: string;
-  avatar: string;
-}
-
-export interface Amenities {
-  hotel: string[];
-  room: string[];
-  roomTypes: string[];
-}
-
-export interface DetailedOffer {
-  photos: string[];
-  title: string;
-  rating: number;
-  numberReviews: number;
-  rankingDetails: string;
-  price: string;
-  reviews: Review[];
-  location: string;
-  status: boolean;
-  amenities: Amenities;
-}
-
-interface Photo {
-  maxHeight: number;
-  maxWidth: number;
-  urlTemplate: string;
-}
-
-interface ReviewServer {
-  title: string;
-  text: string;
-  bubbleRatingText: string;
-  publishedDate: string;
-  userProfile: {
-    deprecatedContributionCount: string;
-    avatar: Photo;
-    photos: string[];
-  };
-}
-
-export interface LocationServer {
-  documentId: string;
-  geoId: string;
-  secondaryText: string;
-  title: string;
-  trackingItems: string;
-}
-
-export interface Location {
-  geoId: string;
-  title: string;
-  status: boolean;
-}
-
-export interface LocationResponse {
-  data: LocationServer[];
-  message: string;
-  status: boolean;
-  timestamp: number;
-}
-
-export interface OfferResponce {
-  accentedLabel: boolean;
-  badge: {
-    size?: string;
-    type?: string;
-    year?: string;
-  };
-  bubbleRating: {
-    count: string;
-    rating: number;
-  };
-  cardPhotos: Array<{
-    sizes: Photo & { __typename: string };
-    __typename: string;
-  }>;
-  id: string;
-  isSponsored: boolean;
-  priceDetails: string;
-  priceForDisplay: string;
-  priceSummary: null | string;
-  primaryInfo: null | string;
-  provider: string;
-  secondaryInfo: null | string;
-  strikethroughPrice: null | string;
-  title: string;
-}
-
-export interface OffersResponce {
-  data: { data: OfferResponce[]; sortDisclaimer: string };
-  message: string;
-  status: boolean;
-  timestamp: number;
-}
-
-export interface Offer {
-  badge: string;
-  bubbleRating: {
-    count: string;
-    rating: number;
-  };
-  cardPhotos: Array<string>;
-  id: string;
-  isSponsored: boolean;
-  priceForDisplay: string;
-  title: string;
-  isFavorite: boolean;
-}
-
-interface Search {
+interface SearchAll {
   location: string;
   checkIn: string;
   checkOut: string;
 }
 
-interface SearchOffer {
+interface SearchDetailOffer {
   offerId: string;
   checkIn: string;
   checkOut: string;
 }
-
-export interface OffersbyLocation {
-  location: Location;
-  offers: {
-    status: boolean;
-    offers: Offer[];
-    totalOffers: string;
-  };
-}
-
-const amenitiesTitle = {
-  room: ["Comfort", "Room features", "Kitchen", "Entertainment", "Bath"],
-  roomTypes: ["View", "Room types"],
-};
-
-//C сервера получаю кучу не нужного мусора, поэтому использую any
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const getTransformedOffer = (response: any) => {
-  const newAmenities: Amenities = {
-    hotel: [],
-    room: [],
-    roomTypes: [],
-  };
-  response.data.amenitiesScreen.forEach(
-    (element: { title: string; content: string[] }) => {
-      if (amenitiesTitle.room.includes(element.title)) {
-        newAmenities.room.push(...element.content);
-      } else if (amenitiesTitle.roomTypes.includes(element.title)) {
-        newAmenities.roomTypes.push(...element.content);
-      } else {
-        newAmenities.hotel.push(...element.content);
-      }
-    }
-  );
-
-  return {
-    photos: response.data.photos
-      .filter((photo: Photo) => Number(photo.maxHeight) > 500)
-      .map((photo: Photo) => formatPhotoUrl(photo.urlTemplate, "1100", "500")),
-    title: response.data.title,
-    rating: response.data.rating,
-    numberReviews: response.data.numberReviews,
-    rankingDetails: response.data.rankingDetails.replace(/<a>|<\/a>/g, ""),
-    price: response.data.price.displayPrice || "0",
-    reviews: response.data.reviews.content.map((review: ReviewServer) => ({
-      title: review.title,
-      text: review.text.replace(/<br \/>/g, ""),
-      publishedDate: review.publishedDate,
-      avatar: review.userProfile.avatar.urlTemplate
-        ? formatPhotoUrl(review.userProfile.avatar.urlTemplate, "100", "100")
-        : "",
-    })),
-    location: response.data.location.address,
-    status: response.status,
-    amenities: newAmenities,
-  };
-};
 
 //Без as может возвращаться тип undefined
 export const API_KEY = process.env.REACT_APP_API_KEY as string;
@@ -205,7 +37,7 @@ export const apiSlice = createApi({
     },
   }),
   endpoints: (builder) => ({
-    getOffer: builder.query<DetailedOffer, SearchOffer>({
+    getOffer: builder.query<DetailedOffer, SearchDetailOffer>({
       query: (offerParams) => ({
         url: "/getHotelDetails",
         params: {
@@ -219,7 +51,7 @@ export const apiSlice = createApi({
     }),
     //ниже большое колличество использования as - взято из примера официальной документации как делать несколько запросов на сервер из одной endPoint.
     // https://redux-toolkit.js.org/rtk-query/usage/customizing-queries#performing-multiple-requests-with-a-single-query
-    getAllOffers: builder.query<OffersbyLocation, Search>({
+    getAllOffers: builder.query<OffersbyLocation, SearchAll>({
       async queryFn(searchParams, _queryApi, _extraOptions, fetchWithBQ) {
         const locationResponse = await fetchWithBQ({
           url: "/searchLocation",
@@ -233,7 +65,7 @@ export const apiSlice = createApi({
         const location = getTransformedLocation(
           locationResponse.data as LocationResponse
         );
-        const offersResponce = await fetchWithBQ({
+        const offersServer = await fetchWithBQ({
           url: "/searchHotels",
           params: {
             geoId: location.geoId,
@@ -242,10 +74,10 @@ export const apiSlice = createApi({
             currencyCode: "USD",
           },
         });
-        if (offersResponce.error) {
-          return { error: offersResponce.error as FetchBaseQueryError };
+        if (offersServer.error) {
+          return { error: offersServer.error as FetchBaseQueryError };
         }
-        const offersResponceData = offersResponce.data as OffersResponce;
+        const offersResponceData = offersServer.data as OffersServer;
         const offers = getTransformedOffers(offersResponceData);
         return { data: { location, offers } };
       },

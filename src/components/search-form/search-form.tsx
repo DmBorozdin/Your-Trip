@@ -6,6 +6,7 @@ import { DATE_FORMAT } from "../../const";
 import { makeLocationUrl } from "../../utils/api";
 import { useNavigate } from "react-router-dom";
 import useHistory from "../../hooks/use-history";
+import { formatLocationName } from "../../utils/search-form";
 
 interface InitialValue {
   initialValue: { location: string; checkIn: string; checkOut: string };
@@ -15,9 +16,6 @@ interface Form {
   location: string;
   rangePicker: Array<dayjs.Dayjs>;
 }
-
-const formatLocationName = (location: string) =>
-  location[0].toUpperCase() + location.slice(1);
 
 const SearchForm = ({ initialValue }: InitialValue) => {
   const navigate = useNavigate();

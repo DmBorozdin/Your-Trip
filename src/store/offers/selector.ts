@@ -1,4 +1,4 @@
-import { OffersbyLocation } from "../../services/apiSlice";
+import { OffersbyLocation } from "../../types/offers";
 import { Favorites } from "../users/users";
 
 export const getOffersForAuth = (

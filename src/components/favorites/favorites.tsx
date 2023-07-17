@@ -4,8 +4,7 @@ import styles from "./favorites.module.scss";
 import { useSelector } from "react-redux";
 import { getFavorites } from "../../store/users/selector";
 import dayjs from "dayjs";
-
-const DATE_FORMAT = "YYYY-MM-DD";
+import { DATE_FORMAT } from "../../const";
 
 const Favorites = () => {
   const favorites = useSelector(getFavorites);

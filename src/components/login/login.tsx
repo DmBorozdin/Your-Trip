@@ -36,7 +36,7 @@ const Login = () => {
       <div className={styles.container}>
         <section className={styles.login}>
           <h1 className={styles.title}>Login</h1>
-          <form className={styles.form} action="#" method="post">
+          <form className={styles.form}>
             <div>
               <input
                 ref={loginRef}
